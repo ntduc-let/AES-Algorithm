@@ -10,6 +10,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.DocumentEvent;
@@ -168,7 +169,7 @@ public class AESForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLoopNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnThoat)
+                .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -216,7 +217,7 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel11.setText("Thời gian (s):");
 
-        txtTime1.setText("xxxxxxxx");
+        txtTime1.setText("00:00:00.00");
         txtTime1.setEnabled(false);
 
         txtNoti1.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
@@ -278,11 +279,11 @@ public class AESForm extends javax.swing.JFrame {
                                     .addComponent(txtKey1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnCopy1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnMaHoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCopy1, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                             .addComponent(btnReset1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTime1)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtTime1))
+                            .addComponent(btnMaHoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -356,7 +357,7 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel19.setText("Thời gian (s):");
 
-        txtTime2.setText("xxxxxxxx");
+        txtTime2.setText("00:00:00.00");
         txtTime2.setEnabled(false);
 
         txtNoti2.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
@@ -418,10 +419,10 @@ public class AESForm extends javax.swing.JFrame {
                                     .addComponent(txtKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnCopy2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnGiaiMa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnReset2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCopy2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReset2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGiaiMa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTime2))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -471,10 +472,11 @@ public class AESForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -492,9 +494,7 @@ public class AESForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,23 +525,11 @@ public class AESForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbSizeKeyActionPerformed
 
-    private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
-        txtBanMa1.setText("");
-        txtBanRo1.setText("");
-        txtKey1.setText("");
-        txtTime1.setText("");
-        txtNoti1.setText(" ");
-
-        cbTypeBanMa1.setSelectedIndex(0);
-        cbTypeBanRo1.setSelectedIndex(0);
-        cbTypeKey1.setSelectedIndex(0);
-    }//GEN-LAST:event_btnReset1ActionPerformed
-
     private void btnReset2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset2ActionPerformed
         txtBanMa2.setText("");
         txtBanRo2.setText("");
         txtKey2.setText("");
-        txtTime2.setText("");
+        txtTime2.setText("00:00:00.00");
         txtNoti2.setText(" ");
 
         cbTypeBanMa2.setSelectedIndex(0);
@@ -549,115 +537,16 @@ public class AESForm extends javax.swing.JFrame {
         cbTypeKey2.setSelectedIndex(0);
     }//GEN-LAST:event_btnReset2ActionPerformed
 
-    private void btnCopy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy1ActionPerformed
-        StringSelection stringSelection = new StringSelection(txtBanMa1.getText());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-    }//GEN-LAST:event_btnCopy1ActionPerformed
-
     private void btnCopy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy2ActionPerformed
         StringSelection stringSelection = new StringSelection(txtBanRo2.getText());
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
     }//GEN-LAST:event_btnCopy2ActionPerformed
 
-    private void btnMaHoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaHoaActionPerformed
-        int size = 0;
-        int ver = 0; //Số phiên bản
-
-        String strOutCipher = ""; //Chuỗi đã mã hóa
-
-        byte[] byteKey = null; //Mảng key
-        int[] byteKeyExpansion; //Mảng key mở rộng
-
-        byte[] byteInPlaint = null; //Mảng byte chuyển từ chuỗi strInPlaint
-        byte[][][] byteInPlaintConvert; //Mảng byte chuyển từ mảng byteInPlaint
-        byte[][][] byteOutCipher; //Mảng byte chuyển được mã hóa từ byteInPlaintConvert
-        byte[] byteOutCipherConvert; //Mảng byte chuyển từ mảng byteOutCipher
-
-        size = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
-
-        AESAlgorithm aes = new AESAlgorithm(size);
-        
-        switch (cbTypeKey1.getSelectedIndex()) {
-            case 0: //Hex
-                byteKey = aes.decodeHexString(txtKey1.getText()); //Chuyển chuỗi Hex thành mảng Hex[]
-                break;
-            case 1: //Chuoi
-                try {
-                byteKey = txtKey1.getText().getBytes("UTF-8"); //Chuyển chuỗi đầu vào sang byte[]
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            break;
-        }
-        
-        byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
-
-        switch (cbTypeBanRo1.getSelectedIndex()) {
-            case 0: //Hex
-                byteInPlaint = aes.decodeHexString(txtBanRo1.getText()); //Chuyển chuỗi Hex thành mảng Hex[]
-                break;
-            case 1: //Chuoi
-                try {
-                byteInPlaint = txtBanRo1.getText().getBytes("UTF-8"); //Chuyển chuỗi đầu vào sang byte[]
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            break;
-        }
-
-        //Xác định số phiên bản
-        if (byteInPlaint.length % 16 == 0) {
-            ver = byteInPlaint.length / 16;
-        } else {
-            ver = byteInPlaint.length / 16 + 1;
-        }
-
-        //Chuyển mã thành nhiều phiên bản byte[][]
-        byteInPlaintConvert = new byte[ver][4][4];
-        for (int v = 0; v < ver; v++) {
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    if (16 * v + 4 * i + j < byteInPlaint.length) {
-                        byteInPlaintConvert[v][j][i] = byteInPlaint[16 * v + 4 * i + j];
-                    } else {
-                        byteInPlaintConvert[v][j][i] = (byte) 0x20; //Thêm khoảng trống
-                    }
-                }
-            }
-        }
-
-        //Mã hóa các phiên bản
-        byteOutCipher = new byte[ver][4][4];
-        byteOutCipherConvert = new byte[ver * 4 * 4];
-        for (int v = 0; v < ver; v++) {
-            byteOutCipher[v] = aes.cipher(byteInPlaintConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
-            switch (cbTypeBanMa1.getSelectedIndex()) {
-                case 0: //Hex
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            sb.append(String.format("%02X", byteOutCipher[v][j][i]));
-                        }
-                    }
-                    strOutCipher += sb.toString();
-                    break;
-                case 1: //Chuoi
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            byteOutCipherConvert[16 * v + 4 * i + j] = byteOutCipher[v][j][i];
-                        }
-                    }
-                    strOutCipher = new String(byteOutCipherConvert, StandardCharsets.UTF_8);
-                    break;
-            }
-
-        }
-        txtBanMa1.setText(strOutCipher);
-    }//GEN-LAST:event_btnMaHoaActionPerformed
-
     private void btnGiaiMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGiaiMaActionPerformed
+        LocalTime time1, time2, timeDelay;
+        time1 = LocalTime.now();
+        
         int size = 0; //Kích thước khóa
         
         String strOutPlaint = ""; //Chuỗi đã giải mã
@@ -751,7 +640,148 @@ public class AESForm extends javax.swing.JFrame {
             }
         }
         txtBanRo2.setText(strOutPlaint);
+        
+        time2 = LocalTime.now();
+
+        timeDelay = time2.minusHours(time1.getHour()).minusMinutes(time1.getMinute()).minusSeconds(time1.getSecond()).minusNanos(time1.getNano());
+        System.out.println(""+time1);
+        System.out.println(""+time2);
+        String strTimeDelay = ""+timeDelay;
+        if(strTimeDelay.length()<16){
+            txtTime2.setText(strTimeDelay);
+        }else{
+            txtTime2.setText(strTimeDelay.substring(0, 16));
+        }
     }//GEN-LAST:event_btnGiaiMaActionPerformed
+
+    private void btnCopy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy1ActionPerformed
+        StringSelection stringSelection = new StringSelection(txtBanMa1.getText());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+    }//GEN-LAST:event_btnCopy1ActionPerformed
+
+    private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
+        txtBanMa1.setText("");
+        txtBanRo1.setText("");
+        txtKey1.setText("");
+        txtTime1.setText("00:00:00.00");
+        txtNoti1.setText(" ");
+
+        cbTypeBanMa1.setSelectedIndex(0);
+        cbTypeBanRo1.setSelectedIndex(0);
+        cbTypeKey1.setSelectedIndex(0);
+    }//GEN-LAST:event_btnReset1ActionPerformed
+
+    private void btnMaHoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaHoaActionPerformed
+        LocalTime time1, time2, timeDelay;
+        time1 = LocalTime.now();
+
+        int size = 0;
+        int ver = 0; //Số phiên bản
+
+        String strOutCipher = ""; //Chuỗi đã mã hóa
+
+        byte[] byteKey = null; //Mảng key
+        int[] byteKeyExpansion; //Mảng key mở rộng
+
+        byte[] byteInPlaint = null; //Mảng byte chuyển từ chuỗi strInPlaint
+        byte[][][] byteInPlaintConvert; //Mảng byte chuyển từ mảng byteInPlaint
+        byte[][][] byteOutCipher; //Mảng byte chuyển được mã hóa từ byteInPlaintConvert
+        byte[] byteOutCipherConvert; //Mảng byte chuyển từ mảng byteOutCipher
+
+        size = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
+
+        AESAlgorithm aes = new AESAlgorithm(size);
+
+        switch (cbTypeKey1.getSelectedIndex()) {
+            case 0: //Hex
+            byteKey = aes.decodeHexString(txtKey1.getText()); //Chuyển chuỗi Hex thành mảng Hex[]
+            break;
+            case 1: //Chuoi
+            try {
+                byteKey = txtKey1.getText().getBytes("UTF-8"); //Chuyển chuỗi đầu vào sang byte[]
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            break;
+        }
+
+        byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
+
+        switch (cbTypeBanRo1.getSelectedIndex()) {
+            case 0: //Hex
+            byteInPlaint = aes.decodeHexString(txtBanRo1.getText()); //Chuyển chuỗi Hex thành mảng Hex[]
+            break;
+            case 1: //Chuoi
+            try {
+                byteInPlaint = txtBanRo1.getText().getBytes("UTF-8"); //Chuyển chuỗi đầu vào sang byte[]
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            break;
+        }
+
+        //Xác định số phiên bản
+        if (byteInPlaint.length % 16 == 0) {
+            ver = byteInPlaint.length / 16;
+        } else {
+            ver = byteInPlaint.length / 16 + 1;
+        }
+
+        //Chuyển mã thành nhiều phiên bản byte[][]
+        byteInPlaintConvert = new byte[ver][4][4];
+        for (int v = 0; v < ver; v++) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (16 * v + 4 * i + j < byteInPlaint.length) {
+                        byteInPlaintConvert[v][j][i] = byteInPlaint[16 * v + 4 * i + j];
+                    } else {
+                        byteInPlaintConvert[v][j][i] = (byte) 0x20; //Thêm khoảng trống
+                    }
+                }
+            }
+        }
+
+        //Mã hóa các phiên bản
+        byteOutCipher = new byte[ver][4][4];
+        byteOutCipherConvert = new byte[ver * 4 * 4];
+        for (int v = 0; v < ver; v++) {
+            byteOutCipher[v] = aes.cipher(byteInPlaintConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
+            switch (cbTypeBanMa1.getSelectedIndex()) {
+                case 0: //Hex
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        sb.append(String.format("%02X", byteOutCipher[v][j][i]));
+                    }
+                }
+                strOutCipher += sb.toString();
+                break;
+                case 1: //Chuoi
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        byteOutCipherConvert[16 * v + 4 * i + j] = byteOutCipher[v][j][i];
+                    }
+                }
+                strOutCipher = new String(byteOutCipherConvert, StandardCharsets.UTF_8);
+                break;
+            }
+
+        }
+        txtBanMa1.setText(strOutCipher);
+
+        time2 = LocalTime.now();
+
+        timeDelay = time2.minusHours(time1.getHour()).minusMinutes(time1.getMinute()).minusSeconds(time1.getSecond()).minusNanos(time1.getNano());
+        System.out.println(""+time1);
+        System.out.println(""+time2);
+        String strTimeDelay = ""+timeDelay;
+        if(strTimeDelay.length()<=17){
+            txtTime1.setText(strTimeDelay);
+        }else{
+            txtTime1.setText(strTimeDelay.substring(0, 16));
+        }
+    }//GEN-LAST:event_btnMaHoaActionPerformed
 
     private void updateNoti1() {
         int sizeKey = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
