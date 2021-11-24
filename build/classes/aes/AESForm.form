@@ -33,7 +33,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+          <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -48,16 +48,19 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jPanel5" pref="0" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jPanel2" min="-2" pref="780" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPanel2" min="-2" pref="780" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="jPanel5" alignment="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -68,7 +71,7 @@
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -176,32 +179,36 @@
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="868" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel4" min="-2" pref="43" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbTypeBanRo1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jScrollPane1" min="-2" pref="499" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                              <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="txtNotiBanRo1" alignment="1" min="-2" pref="499" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="jLabel5" min="-2" pref="42" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                                  <Component id="cbTypeKey1" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
                                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="cbTypeBanMa1" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="cbTypeKey1" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jLabel5" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane3" min="-2" pref="499" max="-2" attributes="0"/>
+                                              <Component id="txtNotiKey1" min="-2" pref="500" max="-2" attributes="0"/>
+                                              <Component id="txtKey1" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jScrollPane3" min="-2" pref="499" max="-2" attributes="0"/>
-                                          <Component id="txtNoti1" min="-2" pref="500" max="-2" attributes="0"/>
-                                          <Component id="txtKey1" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel4" min="-2" pref="43" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="cbTypeBanRo1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="jScrollPane1" min="-2" pref="499" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -226,42 +233,42 @@
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnReset1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbTypeBanRo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbTypeBanRo1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="txtNotiBanRo1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtKey1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cbTypeKey1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtNoti1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="cbTypeBanMa1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="txtNotiKey1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnReset1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnMaHoa" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtTime1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnCopy1" min="-2" max="-2" attributes="0"/>
                           </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cbTypeBanMa1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCopy1" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -371,7 +378,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="txtNoti1">
+            <Component class="javax.swing.JLabel" name="txtNotiKey1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="11" style="3"/>
@@ -415,6 +422,17 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="txtNotiBanRo1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="11" style="3"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value=" "/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel5">
@@ -438,31 +456,37 @@
                               <EmptySpace min="-2" pref="868" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbTypeBanMa2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jScrollPane2" min="-2" pref="499" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel10" min="-2" pref="43" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="cbTypeBanRo2" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="cbTypeKey2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="jLabel9" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="txtNotiBanMa2" min="-2" pref="500" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="cbTypeBanMa2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="jScrollPane2" min="-2" pref="499" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jScrollPane4" alignment="0" min="-2" pref="499" max="-2" attributes="0"/>
-                                          <Component id="txtNoti2" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
-                                          <Component id="txtKey2" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel10" min="-2" pref="43" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="jLabel9" min="-2" pref="42" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="cbTypeBanRo2" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="cbTypeKey2" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane4" alignment="0" min="-2" pref="499" max="-2" attributes="0"/>
+                                              <Component id="txtNotiKey2" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
+                                              <Component id="txtKey2" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
@@ -487,40 +511,42 @@
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbTypeBanMa2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbTypeBanMa2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnReset2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtNotiBanMa2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnGiaiMa" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtKey2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cbTypeKey2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtNoti2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtNotiKey2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="cbTypeBanRo2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnReset2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnGiaiMa" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtTime2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnCopy2" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -632,7 +658,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="txtNoti2">
+            <Component class="javax.swing.JLabel" name="txtNotiKey2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="11" style="3"/>
@@ -641,6 +667,7 @@
                   <Color blue="33" green="33" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value=" "/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnReset2">
@@ -676,6 +703,17 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="txtNotiBanMa2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="11" style="3"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="33" green="33" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value=" "/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
