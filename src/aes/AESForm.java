@@ -11,6 +11,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -26,6 +27,7 @@ public class AESForm extends javax.swing.JFrame {
     public static final int TYPE_HEX = 0;
     public static final int TYPE_STR = 1;
     public static final int LENGTH_TIME = 17;
+    public static final String URL_ICON = ".\\icon\\AES_icon.png";
 
     /**
      * Creates new form AESForm
@@ -34,7 +36,7 @@ public class AESForm extends javax.swing.JFrame {
         initComponents();
 
         //Set title icon
-        Image icon = Toolkit.getDefaultToolkit().getImage(".\\icon\\AES_icon.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage(URL_ICON);
         setIconImage(icon);
 
         //Đặt form ra giữa
@@ -599,7 +601,7 @@ public class AESForm extends javax.swing.JFrame {
         byteInCipherConvert = getByteInConvert(ver, byteInCipher); //Chuyển mã thành nhiều phiên bản byte[][]
 
         strOutPlaint = getStrOutGiaiMa(aes, ver, byteKeyExpansion, cbTypeBanRo2, byteInCipherConvert); //Chuỗi đã giải mã
-        
+
         txtBanRo2.setText(strOutPlaint);
 
         timeEnd = LocalTime.now();
@@ -614,7 +616,7 @@ public class AESForm extends javax.swing.JFrame {
         if (strTimeDelay.length() <= LENGTH_TIME) {
             txtTime2.setText(strTimeDelay);
         } else {
-            txtTime2.setText(strTimeDelay.substring(0, LENGTH_TIME-1));
+            txtTime2.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
         }
     }//GEN-LAST:event_btnGiaiMaActionPerformed
 
@@ -652,7 +654,7 @@ public class AESForm extends javax.swing.JFrame {
         byte[][][] byteInPlaintConvert; //Mảng byte chuyển từ mảng byteInPlaint
 
         size = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
-        
+
         AESAlgorithm aes = new AESAlgorithm(size);
 
         byteKey = getByte(aes, cbTypeKey1, txtKey1.getText()); //Chuyển chuỗi key thành mảng byte[]
@@ -680,7 +682,7 @@ public class AESForm extends javax.swing.JFrame {
         if (strTimeDelay.length() <= LENGTH_TIME) {
             txtTime1.setText(strTimeDelay);
         } else {
-            txtTime1.setText(strTimeDelay.substring(0, LENGTH_TIME-1));
+            txtTime1.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
         }
     }//GEN-LAST:event_btnMaHoaActionPerformed
 
@@ -714,11 +716,7 @@ public class AESForm extends javax.swing.JFrame {
                 break;
             case 1: //Chuỗi
                 int bytestr = 0;
-                try {
-                    bytestr = txtKey1.getText().getBytes("UTF-8").length;
-                } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                bytestr = txtKey1.getText().getBytes(StandardCharsets.UTF_8).length;
                 if (bytestr == 0) {
                     txtNotiKey1.setText(" ");
                 } else if (bytestr < lengKey) {
@@ -762,11 +760,7 @@ public class AESForm extends javax.swing.JFrame {
                 break;
             case 1: //Chuỗi
                 int bytestr = 0;
-                try {
-                    bytestr = txtKey2.getText().getBytes("UTF-8").length;
-                } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                bytestr = txtKey2.getText().getBytes(StandardCharsets.UTF_8).length;
                 if (bytestr == 0) {
                     txtNotiKey2.setText(" ");
                 } else if (bytestr < lengKey) {
@@ -819,13 +813,8 @@ public class AESForm extends javax.swing.JFrame {
         switch (cbType.getSelectedIndex()) {
             case TYPE_HEX: //Hex
                 return aes.decodeHexString(noiDung); //Chuyển chuỗi Hex thành mảng Hex[]
-            case TYPE_STR: //Chuoi
-                try {
-                return noiDung.getBytes("UTF-8"); //Chuyển chuỗi đầu vào sang byte[]
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(AESForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            break;
+            case TYPE_STR:
+                return noiDung.getBytes(StandardCharsets.UTF_8); //Chuyển chuỗi đầu vào sang byte[]
         }
         return null;
     }
@@ -846,7 +835,7 @@ public class AESForm extends javax.swing.JFrame {
                     if (16 * v + 4 * i + j < byteIn.length) {
                         byteInConvert[v][j][i] = byteIn[16 * v + 4 * i + j];
                     } else {
-                        byteInConvert[v][j][i] = (byte) 0x20; //Thêm khoảng trống
+                        byteInConvert[v][j][i] = (byte) 0x09; //Thêm padding
                     }
                 }
             }
@@ -854,7 +843,7 @@ public class AESForm extends javax.swing.JFrame {
         return byteInConvert;
     }
 
-    private String getStrOutMaHoa(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] byteInConvert){
+    private String getStrOutMaHoa(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] byteInConvert) {
         String strOut = "";
         byte[][][] byteOut = new byte[ver][4][4];
         switch (cbType.getSelectedIndex()) {
@@ -862,7 +851,7 @@ public class AESForm extends javax.swing.JFrame {
                 //Mã hóa các phiên bản
                 for (int v = 0; v < ver; v++) {
                     byteOut[v] = aes.cipher(byteInConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
-                    
+
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
@@ -877,7 +866,7 @@ public class AESForm extends javax.swing.JFrame {
                 //Mã hóa các phiên bản
                 for (int v = 0; v < ver; v++) {
                     byteOut[v] = aes.cipher(byteInConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
-                    
+
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
                             byteOutConvert[16 * v + 4 * i + j] = byteOut[v][j][i];
@@ -889,43 +878,54 @@ public class AESForm extends javax.swing.JFrame {
         }
         return strOut;
     }
-    
-    private String getStrOutGiaiMa(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] byteInConvert){
+
+    private String getStrOutGiaiMa(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] byteInConvert) {
         String strOut = "";
         byte[][][] byteOut = new byte[ver][4][4];
+        ArrayList<Byte> byteOutConvert = new ArrayList<>();
+        byte[] byteOutConvert2 = null;
         switch (cbType.getSelectedIndex()) {
             case TYPE_HEX: //Hex
                 //Giải mã các phiên bản
                 for (int v = 0; v < ver; v++) {
-                    byteOut[v] = aes.invCipher(byteInConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
+                    byteOut[v] = aes.invCipher(byteInConvert[v], byteKeyExpansion); //Giải mã phiên bản v
                     
-                    StringBuilder sb = new StringBuilder();
+                    //Chuyển sang mảng 1 chiều
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            sb.append(String.format("%02X", byteOut[v][j][i]));
+                            byteOutConvert.add(byteOut[v][j][i]);
                         }
                     }
+                }
+
+                byteOutConvert2 = arrayListToArray(byteOutConvert);
+
+                StringBuilder sb = new StringBuilder();
+                for (byte b : byteOutConvert2) {
+                    sb.append(String.format("%02X", b));
                     strOut += sb.toString();
                 }
                 break;
             case TYPE_STR: //Chuoi
-                byte[] byteOutConvert = new byte[ver * 4 * 4];
                 //Giải mã các phiên bản
                 for (int v = 0; v < ver; v++) {
-                    byteOut[v] = aes.invCipher(byteInConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
-                    
+                    byteOut[v] = aes.invCipher(byteInConvert[v], byteKeyExpansion); //Giải mã phiên bản v
+
+                    //Chuyển sang mảng 1 chiều
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            byteOutConvert[16 * v + 4 * i + j] = byteOut[v][j][i];
+                            byteOutConvert.add(byteOut[v][j][i]);
                         }
                     }
-                    strOut = new String(byteOutConvert, StandardCharsets.UTF_8);
                 }
+                
+                byteOutConvert2 = arrayListToArray(byteOutConvert);
+
+                strOut = new String(byteOutConvert2, StandardCharsets.UTF_8);
                 break;
         }
         return strOut;
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCopy1;
     private javax.swing.JButton btnCopy2;
@@ -975,4 +975,20 @@ public class AESForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtTime1;
     private javax.swing.JTextField txtTime2;
     // End of variables declaration//GEN-END:variables
+
+    private byte[] arrayListToArray(ArrayList<Byte> arrayList) {
+        byte[] array = null;
+        for (int i = arrayList.size() - 1; i > 0; i--) {
+            if (arrayList.get(i) == (byte) 0x09) {
+                arrayList.remove(i);
+            } else {
+                array = new byte[i + 1];
+                break;
+            }
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = arrayList.get(i);
+        }
+        return array;
+    }
 }
