@@ -574,6 +574,15 @@ public class AESForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCopy2ActionPerformed
 
     private void btnDecodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecodeActionPerformed
+        if(txtCipher2.getText().isEmpty()){
+            txtNotiCipher2.setText("Vui lòng nhập bản rõ!");
+            return;
+        }else if(txtKey2.getText().isEmpty()){
+            txtNotiKey2.setText("Vui lòng nhập khóa");
+            return;
+        }
+        
+        
         LocalTime timeBegin, timeEnd, timeDelay;
         timeBegin = LocalTime.now();
 
@@ -641,6 +650,14 @@ public class AESForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReset1ActionPerformed
 
     private void btnEncodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncodeActionPerformed
+        if(txtPlain1.getText().isEmpty()){
+            txtNotiPlain1.setText("Vui lòng nhập bản mã!");
+            return;
+        }else if(txtKey1.getText().isEmpty()){
+            txtNotiKey1.setText("Vui lòng nhập khóa");
+            return;
+        }
+        
         LocalTime timeBegin, timeEnd, timeDelay;
         timeBegin = LocalTime.now();
 
