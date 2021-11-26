@@ -8,12 +8,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -25,9 +22,15 @@ import javax.swing.event.DocumentListener;
 public class AESForm extends javax.swing.JFrame {
 
     public static final int TYPE_HEX = 0;
-    public static final int TYPE_STR = 1;
+    public static final int TYPE_UTF8 = 1;
     public static final int LENGTH_TIME = 17;
     public static final String URL_ICON = ".\\icon\\AES_icon.png";
+    public static final String KEY_SIZE_128 = "128";
+    public static final String KEY_SIZE_192 = "192";
+    public static final String KEY_SIZE_256 = "256";
+    public static final String LOOP_NUMBER_10 = "10";
+    public static final String LOOP_NUMBER_12 = "12";
+    public static final String LOOP_NUMBER_14 = "14";
 
     /**
      * Creates new form AESForm
@@ -91,50 +94,50 @@ public class AESForm extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cbSizeKey = new javax.swing.JComboBox<>();
+        cbbSizeKey = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         txtLoopNumber = new javax.swing.JTextField();
-        btnThoat = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cbTypeBanRo1 = new javax.swing.JComboBox<>();
+        cbbTypePlain1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtBanRo1 = new javax.swing.JTextArea();
-        cbTypeKey1 = new javax.swing.JComboBox<>();
+        txtPlain1 = new javax.swing.JTextArea();
+        cbbTypeKey1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         txtKey1 = new javax.swing.JTextField();
-        cbTypeBanMa1 = new javax.swing.JComboBox<>();
+        cbbTypeCipher1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        btnMaHoa = new javax.swing.JButton();
+        btnEncode = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         txtTime1 = new javax.swing.JTextField();
         txtNotiKey1 = new javax.swing.JLabel();
         btnReset1 = new javax.swing.JButton();
         btnCopy1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        txtBanMa1 = new javax.swing.JTextArea();
-        txtNotiBanRo1 = new javax.swing.JLabel();
+        txtCipher1 = new javax.swing.JTextArea();
+        txtNotiPlain1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cbTypeBanMa2 = new javax.swing.JComboBox<>();
+        cbbTypeCipher2 = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtBanMa2 = new javax.swing.JTextArea();
-        cbTypeKey2 = new javax.swing.JComboBox<>();
+        txtCipher2 = new javax.swing.JTextArea();
+        cbbTypeKey2 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         txtKey2 = new javax.swing.JTextField();
-        cbTypeBanRo2 = new javax.swing.JComboBox<>();
+        cbbTypePlain2 = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        btnGiaiMa = new javax.swing.JButton();
+        btnDecode = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         txtTime2 = new javax.swing.JTextField();
         txtNotiKey2 = new javax.swing.JLabel();
         btnReset2 = new javax.swing.JButton();
         btnCopy2 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        txtBanRo2 = new javax.swing.JTextArea();
-        txtNotiBanMa2 = new javax.swing.JLabel();
+        txtPlain2 = new javax.swing.JTextArea();
+        txtNotiCipher2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mã hóa và giải mã AES");
@@ -145,10 +148,10 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel1.setText("Độ dài khóa:");
 
-        cbSizeKey.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "128", "192", "256" }));
-        cbSizeKey.addActionListener(new java.awt.event.ActionListener() {
+        cbbSizeKey.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "128", "192", "256" }));
+        cbbSizeKey.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSizeKeyActionPerformed(evt);
+                cbbSizeKeyActionPerformed(evt);
             }
         });
 
@@ -157,10 +160,10 @@ public class AESForm extends javax.swing.JFrame {
         txtLoopNumber.setText("10");
         txtLoopNumber.setEnabled(false);
 
-        btnThoat.setText("Thoát");
-        btnThoat.addActionListener(new java.awt.event.ActionListener() {
+        btnExit.setText("Thoát");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThoatActionPerformed(evt);
+                btnExitActionPerformed(evt);
             }
         });
 
@@ -172,13 +175,13 @@ public class AESForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbSizeKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbbSizeKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLoopNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -187,10 +190,10 @@ public class AESForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbSizeKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbSizeKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(txtLoopNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThoat))
+                    .addComponent(btnExit))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -202,25 +205,25 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel4.setText("Bản rõ:");
 
-        cbTypeBanRo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "Chuỗi" }));
+        cbbTypePlain1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "UTF-8" }));
 
-        txtBanRo1.setColumns(20);
-        txtBanRo1.setLineWrap(true);
-        txtBanRo1.setRows(3);
-        jScrollPane1.setViewportView(txtBanRo1);
+        txtPlain1.setColumns(20);
+        txtPlain1.setLineWrap(true);
+        txtPlain1.setRows(3);
+        jScrollPane1.setViewportView(txtPlain1);
 
-        cbTypeKey1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "Chuỗi" }));
+        cbbTypeKey1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "UTF-8" }));
 
         jLabel5.setText("Khóa:");
 
-        cbTypeBanMa1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "Chuỗi" }));
+        cbbTypeCipher1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "UTF-8" }));
 
         jLabel6.setText("Bản mã:");
 
-        btnMaHoa.setText("Mã hóa");
-        btnMaHoa.addActionListener(new java.awt.event.ActionListener() {
+        btnEncode.setText("Mã hóa");
+        btnEncode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMaHoaActionPerformed(evt);
+                btnEncodeActionPerformed(evt);
             }
         });
 
@@ -247,15 +250,15 @@ public class AESForm extends javax.swing.JFrame {
             }
         });
 
-        txtBanMa1.setColumns(20);
-        txtBanMa1.setLineWrap(true);
-        txtBanMa1.setRows(3);
-        txtBanMa1.setEnabled(false);
-        jScrollPane3.setViewportView(txtBanMa1);
+        txtCipher1.setColumns(20);
+        txtCipher1.setLineWrap(true);
+        txtCipher1.setRows(3);
+        txtCipher1.setEnabled(false);
+        jScrollPane3.setViewportView(txtCipher1);
 
-        txtNotiBanRo1.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
-        txtNotiBanRo1.setForeground(new java.awt.Color(255, 51, 51));
-        txtNotiBanRo1.setText(" ");
+        txtNotiPlain1.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
+        txtNotiPlain1.setForeground(new java.awt.Color(255, 51, 51));
+        txtNotiPlain1.setText(" ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -269,37 +272,36 @@ public class AESForm extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(868, 868, 868))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNotiBanRo1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(cbTypeKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(cbTypeBanMa1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtNotiKey1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtKey1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cbTypeBanRo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbbTypeKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbbTypeCipher1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtKey1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                                    .addComponent(txtNotiKey1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbbTypePlain1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNotiPlain1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnCopy1, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                             .addComponent(btnReset1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTime1)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnMaHoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnEncode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -312,21 +314,21 @@ public class AESForm extends javax.swing.JFrame {
                     .addComponent(btnReset1)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
-                        .addComponent(cbTypeBanRo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbbTypePlain1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtNotiBanRo1)
+                        .addComponent(txtNotiPlain1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTypeKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbTypeKey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNotiKey1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnMaHoa)
+                        .addComponent(btnEncode)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -334,7 +336,7 @@ public class AESForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbTypeBanMa1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbbTypeCipher1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCopy1, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -349,25 +351,25 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel8.setText("Bản mã:");
 
-        cbTypeBanMa2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "Chuỗi" }));
+        cbbTypeCipher2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "UTF-8" }));
 
-        txtBanMa2.setColumns(20);
-        txtBanMa2.setLineWrap(true);
-        txtBanMa2.setRows(3);
-        jScrollPane2.setViewportView(txtBanMa2);
+        txtCipher2.setColumns(20);
+        txtCipher2.setLineWrap(true);
+        txtCipher2.setRows(3);
+        jScrollPane2.setViewportView(txtCipher2);
 
-        cbTypeKey2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "Chuỗi" }));
+        cbbTypeKey2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "UTF-8" }));
 
         jLabel9.setText("Khóa:");
 
-        cbTypeBanRo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "Chuỗi" }));
+        cbbTypePlain2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hex", "UTF-8" }));
 
         jLabel10.setText("Bản rõ:");
 
-        btnGiaiMa.setText("Giải mã");
-        btnGiaiMa.addActionListener(new java.awt.event.ActionListener() {
+        btnDecode.setText("Giải mã");
+        btnDecode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGiaiMaActionPerformed(evt);
+                btnDecodeActionPerformed(evt);
             }
         });
 
@@ -395,15 +397,15 @@ public class AESForm extends javax.swing.JFrame {
             }
         });
 
-        txtBanRo2.setColumns(20);
-        txtBanRo2.setLineWrap(true);
-        txtBanRo2.setRows(3);
-        txtBanRo2.setEnabled(false);
-        jScrollPane4.setViewportView(txtBanRo2);
+        txtPlain2.setColumns(20);
+        txtPlain2.setLineWrap(true);
+        txtPlain2.setRows(3);
+        txtPlain2.setEnabled(false);
+        jScrollPane4.setViewportView(txtPlain2);
 
-        txtNotiBanMa2.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
-        txtNotiBanMa2.setForeground(new java.awt.Color(255, 51, 51));
-        txtNotiBanMa2.setText(" ");
+        txtNotiCipher2.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
+        txtNotiCipher2.setForeground(new java.awt.Color(255, 51, 51));
+        txtNotiCipher2.setText(" ");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -417,37 +419,37 @@ public class AESForm extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addGap(868, 868, 868))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNotiBanMa2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cbTypeBanMa2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel5Layout.createSequentialGroup()
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(cbTypeBanRo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(cbTypeKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(19, 19, 19)))
-                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtNotiKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtKey2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cbbTypePlain2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cbbTypeKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(19, 19, 19)))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtKey2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                                    .addComponent(txtNotiKey2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbbTypeCipher2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNotiCipher2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnCopy2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                             .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnReset2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnGiaiMa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDecode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTime2))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -460,26 +462,26 @@ public class AESForm extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
-                        .addComponent(cbTypeBanMa2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbbTypeCipher2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNotiBanMa2)
-                    .addComponent(btnGiaiMa))
+                    .addComponent(txtNotiCipher2)
+                    .addComponent(btnDecode))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTypeKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbTypeKey2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNotiKey2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cbTypeBanRo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbbTypePlain2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel10))
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -532,77 +534,77 @@ public class AESForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_btnThoatActionPerformed
+    }//GEN-LAST:event_btnExitActionPerformed
 
-    private void cbSizeKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSizeKeyActionPerformed
-        String sizeKey = cbSizeKey.getSelectedItem().toString();
+    private void cbbSizeKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSizeKeyActionPerformed
+        String sizeKey = cbbSizeKey.getSelectedItem().toString();
         updateNoti1();
         updateNoti2();
         switch (sizeKey) {
-            case "128":
-                txtLoopNumber.setText("10");
+            case KEY_SIZE_128:
+                txtLoopNumber.setText(LOOP_NUMBER_10);
                 break;
-            case "192":
-                txtLoopNumber.setText("12");
+            case KEY_SIZE_192:
+                txtLoopNumber.setText(LOOP_NUMBER_12);
                 break;
-            case "256":
-                txtLoopNumber.setText("14");
+            case KEY_SIZE_256:
+                txtLoopNumber.setText(LOOP_NUMBER_14);
                 break;
         }
-    }//GEN-LAST:event_cbSizeKeyActionPerformed
+    }//GEN-LAST:event_cbbSizeKeyActionPerformed
 
     private void btnReset2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset2ActionPerformed
-        txtBanMa2.setText("");
-        txtBanRo2.setText("");
+        txtCipher2.setText("");
+        txtPlain2.setText("");
         txtKey2.setText("");
         txtTime2.setText("00:00:00.00");
         txtNotiKey2.setText(" ");
 
-        cbTypeBanMa2.setSelectedIndex(0);
-        cbTypeBanRo2.setSelectedIndex(0);
-        cbTypeKey2.setSelectedIndex(0);
+        cbbTypeCipher2.setSelectedIndex(0);
+        cbbTypePlain2.setSelectedIndex(0);
+        cbbTypeKey2.setSelectedIndex(0);
     }//GEN-LAST:event_btnReset2ActionPerformed
 
     private void btnCopy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy2ActionPerformed
-        StringSelection stringSelection = new StringSelection(txtBanRo2.getText());
+        StringSelection stringSelection = new StringSelection(txtPlain2.getText());
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
     }//GEN-LAST:event_btnCopy2ActionPerformed
 
-    private void btnGiaiMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGiaiMaActionPerformed
+    private void btnDecodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecodeActionPerformed
         LocalTime timeBegin, timeEnd, timeDelay;
         timeBegin = LocalTime.now();
 
         int size = 0; //Kích thước khóa
         int ver = 0; //Số phiên bản
 
-        String strOutPlaint = ""; //Chuỗi đã giải mã
+        String strPlain = ""; //Chuỗi đã giải mã
 
         byte[] byteKey = null; //Mảng key
         int[] byteKeyExpansion; //Mảng key mở rộng
 
-        byte[] byteInCipher = null; //Mảng byte chuyển từ chuỗi strInCipher
-        byte[][][] byteInCipherConvert; //Mảng byte chuyển từ mảng byteInCipher
+        byte[] byteCipher = null; //Mảng byte chuyển từ chuỗi strCipher
+        byte[][][] byteCipherConvert; //Mảng byte chuyển từ mảng byteCipher
 
-        size = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
+        size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
 
         AESAlgorithm aes = new AESAlgorithm(size);
 
-        byteKey = getByte(aes, cbTypeKey2, txtKey2.getText()); //Chuyển chuỗi key thành mảng byte[]
+        byteKey = getByte(aes, cbbTypeKey2, txtKey2.getText()); //Chuyển chuỗi key thành mảng byte[]
 
         byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
 
-        byteInCipher = getByte(aes, cbTypeBanMa2, txtBanMa2.getText()); //Chuyển chuỗi bản mã thành mảng byte[]
+        byteCipher = getByte(aes, cbbTypeCipher2, txtCipher2.getText()); //Chuyển chuỗi bản mã thành mảng byte[]
 
-        ver = getVer(byteInCipher); //Xác định số phiên bản
+        ver = getVer(byteCipher); //Xác định số phiên bản
 
-        byteInCipherConvert = getByteInConvert(ver, byteInCipher); //Chuyển mã thành nhiều phiên bản byte[][]
+        byteCipherConvert = getByteConvert(ver, byteCipher); //Chuyển mã thành nhiều phiên bản byte[][]
 
-        strOutPlaint = getStrOutGiaiMa(aes, ver, byteKeyExpansion, cbTypeBanRo2, byteInCipherConvert); //Chuỗi đã giải mã
+        strPlain = getStrDecode(aes, ver, byteKeyExpansion, cbbTypePlain2, byteCipherConvert); //Chuỗi đã giải mã
 
-        txtBanRo2.setText(strOutPlaint);
+        txtPlain2.setText(strPlain);
 
         timeEnd = LocalTime.now();
 
@@ -618,57 +620,57 @@ public class AESForm extends javax.swing.JFrame {
         } else {
             txtTime2.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
         }
-    }//GEN-LAST:event_btnGiaiMaActionPerformed
+    }//GEN-LAST:event_btnDecodeActionPerformed
 
     private void btnCopy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy1ActionPerformed
-        StringSelection stringSelection = new StringSelection(txtBanMa1.getText());
+        StringSelection stringSelection = new StringSelection(txtCipher1.getText());
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
     }//GEN-LAST:event_btnCopy1ActionPerformed
 
     private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
-        txtBanMa1.setText("");
-        txtBanRo1.setText("");
+        txtCipher1.setText("");
+        txtPlain1.setText("");
         txtKey1.setText("");
         txtTime1.setText("00:00:00.00");
         txtNotiKey1.setText(" ");
 
-        cbTypeBanMa1.setSelectedIndex(0);
-        cbTypeBanRo1.setSelectedIndex(0);
-        cbTypeKey1.setSelectedIndex(0);
+        cbbTypeCipher1.setSelectedIndex(0);
+        cbbTypePlain1.setSelectedIndex(0);
+        cbbTypeKey1.setSelectedIndex(0);
     }//GEN-LAST:event_btnReset1ActionPerformed
 
-    private void btnMaHoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaHoaActionPerformed
+    private void btnEncodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncodeActionPerformed
         LocalTime timeBegin, timeEnd, timeDelay;
         timeBegin = LocalTime.now();
 
         int size = 0; //Kích thước khóa
         int ver = 0; //Số phiên bản
 
-        String strOutCipher = ""; //Chuỗi đã mã hóa
+        String strCipher = ""; //Chuỗi đã mã hóa
 
         byte[] byteKey = null; //Mảng key
         int[] byteKeyExpansion; //Mảng key mở rộng
 
-        byte[] byteInPlaint = null; //Mảng byte chuyển từ chuỗi strInPlaint
-        byte[][][] byteInPlaintConvert; //Mảng byte chuyển từ mảng byteInPlaint
+        byte[] bytePlain = null; //Mảng byte chuyển từ chuỗi strPlain
+        byte[][][] bytePlainConvert; //Mảng byte chuyển từ mảng bytePlain
 
-        size = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
+        size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
 
         AESAlgorithm aes = new AESAlgorithm(size);
 
-        byteKey = getByte(aes, cbTypeKey1, txtKey1.getText()); //Chuyển chuỗi key thành mảng byte[]
+        byteKey = getByte(aes, cbbTypeKey1, txtKey1.getText()); //Chuyển chuỗi key thành mảng byte[]
         byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
 
-        byteInPlaint = getByte(aes, cbTypeBanRo1, txtBanRo1.getText()); //Chuyển chuỗi bản rõ thành mảng byte[]
+        bytePlain = getByte(aes, cbbTypePlain1, txtPlain1.getText()); //Chuyển chuỗi bản rõ thành mảng byte[]
 
-        ver = getVer(byteInPlaint); //Xác định số phiên bản
+        ver = getVer(bytePlain); //Xác định số phiên bản
 
-        byteInPlaintConvert = getByteInConvert(ver, byteInPlaint); //Chuyển mã thành nhiều phiên bản byte[][]
+        bytePlainConvert = getByteConvert(ver, bytePlain); //Chuyển mã thành nhiều phiên bản byte[][]
 
-        strOutCipher = getStrOutMaHoa(aes, ver, byteKeyExpansion, cbTypeBanMa1, byteInPlaintConvert); //Chuỗi đã mã hóa
+        strCipher = getStrEncode(aes, ver, byteKeyExpansion, cbbTypeCipher1, bytePlainConvert); //Chuỗi đã mã hóa
 
-        txtBanMa1.setText(strOutCipher);
+        txtCipher1.setText(strCipher);
 
         timeEnd = LocalTime.now();
 
@@ -684,10 +686,10 @@ public class AESForm extends javax.swing.JFrame {
         } else {
             txtTime1.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
         }
-    }//GEN-LAST:event_btnMaHoaActionPerformed
+    }//GEN-LAST:event_btnEncodeActionPerformed
 
     private void updateNoti1() {
-        int sizeKey = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
+        int sizeKey = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
         int lengKey = 0;
 
         switch (sizeKey) {
@@ -702,7 +704,7 @@ public class AESForm extends javax.swing.JFrame {
                 break;
         }
 
-        switch (cbTypeKey1.getSelectedIndex()) {
+        switch (cbbTypeKey1.getSelectedIndex()) {
             case 0: //Hex
                 if (txtKey1.getText().length() == 0) {
                     txtNotiKey1.setText(" ");
@@ -731,7 +733,7 @@ public class AESForm extends javax.swing.JFrame {
     }
 
     private void updateNoti2() {
-        int sizeKey = Integer.parseInt(cbSizeKey.getSelectedItem().toString());
+        int sizeKey = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
         int lengKey = 0;
 
         switch (sizeKey) {
@@ -746,7 +748,7 @@ public class AESForm extends javax.swing.JFrame {
                 break;
         }
 
-        switch (cbTypeKey2.getSelectedIndex()) {
+        switch (cbbTypeKey2.getSelectedIndex()) {
             case 0: //Hex
                 if (txtKey2.getText().length() == 0) {
                     txtNotiKey2.setText(" ");
@@ -811,136 +813,136 @@ public class AESForm extends javax.swing.JFrame {
 
     private byte[] getByte(AESAlgorithm aes, JComboBox<String> cbType, String noiDung) {
         switch (cbType.getSelectedIndex()) {
-            case TYPE_HEX: //Hex
+            case TYPE_HEX:
                 return aes.decodeHexString(noiDung); //Chuyển chuỗi Hex thành mảng Hex[]
-            case TYPE_STR:
+            case TYPE_UTF8:
                 return noiDung.getBytes(StandardCharsets.UTF_8); //Chuyển chuỗi đầu vào sang byte[]
         }
         return null;
     }
 
-    private int getVer(byte[] byteIn) {
-        if (byteIn.length % 16 == 0) {
-            return byteIn.length / 16;
+    private int getVer(byte[] b) {
+        if (b.length % 16 == 0) {
+            return b.length / 16;
         } else {
-            return byteIn.length / 16 + 1;
+            return b.length / 16 + 1;
         }
     }
 
-    private byte[][][] getByteInConvert(int ver, byte[] byteIn) {
-        byte[][][] byteInConvert = new byte[ver][4][4];
+    private byte[][][] getByteConvert(int ver, byte[] b) {
+        byte[][][] bConvert = new byte[ver][4][4];
         for (int v = 0; v < ver; v++) {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (16 * v + 4 * i + j < byteIn.length) {
-                        byteInConvert[v][j][i] = byteIn[16 * v + 4 * i + j];
+                    if (16 * v + 4 * i + j < b.length) {
+                        bConvert[v][j][i] = b[16 * v + 4 * i + j];
                     } else {
-                        byteInConvert[v][j][i] = (byte) 0x09; //Thêm padding
+                        bConvert[v][j][i] = (byte) 0x09; //Thêm padding
                     }
                 }
             }
         }
-        return byteInConvert;
+        return bConvert;
     }
 
-    private String getStrOutMaHoa(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] byteInConvert) {
-        String strOut = "";
-        byte[][][] byteOut = new byte[ver][4][4];
+    private String getStrEncode(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] bConvert) {
+        String str = "";
+        byte[][][] b = new byte[ver][4][4];
         switch (cbType.getSelectedIndex()) {
-            case TYPE_HEX: //Hex
+            case TYPE_HEX:
                 //Mã hóa các phiên bản
                 for (int v = 0; v < ver; v++) {
-                    byteOut[v] = aes.cipher(byteInConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
+                    b[v] = aes.cipher(bConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
 
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            sb.append(String.format("%02X", byteOut[v][j][i]));
+                            sb.append(String.format("%02X", b[v][j][i]));
                         }
                     }
-                    strOut += sb.toString();
+                    str += sb.toString();
                 }
                 break;
-            case TYPE_STR: //Chuoi
+            case TYPE_UTF8:
                 byte[] byteOutConvert = new byte[ver * 4 * 4];
                 //Mã hóa các phiên bản
                 for (int v = 0; v < ver; v++) {
-                    byteOut[v] = aes.cipher(byteInConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
+                    b[v] = aes.cipher(bConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
 
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            byteOutConvert[16 * v + 4 * i + j] = byteOut[v][j][i];
+                            byteOutConvert[16 * v + 4 * i + j] = b[v][j][i];
                         }
                     }
-                    strOut = new String(byteOutConvert, StandardCharsets.UTF_8);
+                    str = new String(byteOutConvert, StandardCharsets.UTF_8);
                 }
                 break;
         }
-        return strOut;
+        return str;
     }
 
-    private String getStrOutGiaiMa(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] byteInConvert) {
-        String strOut = "";
-        byte[][][] byteOut = new byte[ver][4][4];
-        ArrayList<Byte> byteOutConvert = new ArrayList<>();
-        byte[] byteOutConvert2 = null;
+    private String getStrDecode(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] bConvert) {
+        String str = "";
+        byte[][][] b = new byte[ver][4][4];
+        ArrayList<Byte> byteConvert = new ArrayList<>();
+        byte[] byteConvert2 = null;
         switch (cbType.getSelectedIndex()) {
-            case TYPE_HEX: //Hex
+            case TYPE_HEX:
                 //Giải mã các phiên bản
                 for (int v = 0; v < ver; v++) {
-                    byteOut[v] = aes.invCipher(byteInConvert[v], byteKeyExpansion); //Giải mã phiên bản v
+                    b[v] = aes.invCipher(bConvert[v], byteKeyExpansion); //Giải mã phiên bản v
                     
                     //Chuyển sang mảng 1 chiều
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            byteOutConvert.add(byteOut[v][j][i]);
+                            byteConvert.add(b[v][j][i]);
                         }
                     }
                 }
 
-                byteOutConvert2 = arrayListToArray(byteOutConvert);
+                byteConvert2 = arrayListToArray(byteConvert);
 
                 StringBuilder sb = new StringBuilder();
-                for (byte b : byteOutConvert2) {
-                    sb.append(String.format("%02X", b));
-                    strOut += sb.toString();
+                for (byte b1 : byteConvert2) {
+                    sb.append(String.format("%02X", b1));
+                    str += sb.toString();
                 }
                 break;
-            case TYPE_STR: //Chuoi
+            case TYPE_UTF8:
                 //Giải mã các phiên bản
                 for (int v = 0; v < ver; v++) {
-                    byteOut[v] = aes.invCipher(byteInConvert[v], byteKeyExpansion); //Giải mã phiên bản v
+                    b[v] = aes.invCipher(bConvert[v], byteKeyExpansion); //Giải mã phiên bản v
 
                     //Chuyển sang mảng 1 chiều
                     for (int i = 0; i < 4; i++) {
                         for (int j = 0; j < 4; j++) {
-                            byteOutConvert.add(byteOut[v][j][i]);
+                            byteConvert.add(b[v][j][i]);
                         }
                     }
                 }
                 
-                byteOutConvert2 = arrayListToArray(byteOutConvert);
+                byteConvert2 = arrayListToArray(byteConvert);
 
-                strOut = new String(byteOutConvert2, StandardCharsets.UTF_8);
+                str = new String(byteConvert2, StandardCharsets.UTF_8);
                 break;
         }
-        return strOut;
+        return str;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCopy1;
     private javax.swing.JButton btnCopy2;
-    private javax.swing.JButton btnGiaiMa;
-    private javax.swing.JButton btnMaHoa;
+    private javax.swing.JButton btnDecode;
+    private javax.swing.JButton btnEncode;
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnReset1;
     private javax.swing.JButton btnReset2;
-    private javax.swing.JButton btnThoat;
-    private javax.swing.JComboBox<String> cbSizeKey;
-    private javax.swing.JComboBox<String> cbTypeBanMa1;
-    private javax.swing.JComboBox<String> cbTypeBanMa2;
-    private javax.swing.JComboBox<String> cbTypeBanRo1;
-    private javax.swing.JComboBox<String> cbTypeBanRo2;
-    private javax.swing.JComboBox<String> cbTypeKey1;
-    private javax.swing.JComboBox<String> cbTypeKey2;
+    private javax.swing.JComboBox<String> cbbSizeKey;
+    private javax.swing.JComboBox<String> cbbTypeCipher1;
+    private javax.swing.JComboBox<String> cbbTypeCipher2;
+    private javax.swing.JComboBox<String> cbbTypeKey1;
+    private javax.swing.JComboBox<String> cbbTypeKey2;
+    private javax.swing.JComboBox<String> cbbTypePlain1;
+    private javax.swing.JComboBox<String> cbbTypePlain2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -961,17 +963,17 @@ public class AESForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea txtBanMa1;
-    private javax.swing.JTextArea txtBanMa2;
-    private javax.swing.JTextArea txtBanRo1;
-    private javax.swing.JTextArea txtBanRo2;
+    private javax.swing.JTextArea txtCipher1;
+    private javax.swing.JTextArea txtCipher2;
     private javax.swing.JTextField txtKey1;
     private javax.swing.JTextField txtKey2;
     private javax.swing.JTextField txtLoopNumber;
-    private javax.swing.JLabel txtNotiBanMa2;
-    private javax.swing.JLabel txtNotiBanRo1;
+    private javax.swing.JLabel txtNotiCipher2;
     private javax.swing.JLabel txtNotiKey1;
     private javax.swing.JLabel txtNotiKey2;
+    private javax.swing.JLabel txtNotiPlain1;
+    private javax.swing.JTextArea txtPlain1;
+    private javax.swing.JTextArea txtPlain2;
     private javax.swing.JTextField txtTime1;
     private javax.swing.JTextField txtTime2;
     // End of variables declaration//GEN-END:variables

@@ -88,13 +88,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cbSizeKey" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbbSizeKey" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtLoopNumber" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnThoat" min="-2" pref="110" max="-2" attributes="0"/>
+                      <Component id="btnExit" min="-2" pref="110" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -105,10 +105,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbSizeKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbbSizeKey" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtLoopNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnThoat" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnExit" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -121,7 +121,7 @@
                 <Property name="text" type="java.lang.String" value="&#x110;&#x1ed9; d&#xe0;i kh&#xf3;a:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbSizeKey">
+            <Component class="javax.swing.JComboBox" name="cbbSizeKey">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -132,7 +132,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbSizeKeyActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbSizeKeyActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -149,12 +149,12 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnThoat">
+            <Component class="javax.swing.JButton" name="btnExit">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tho&#xe1;t"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThoatActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExitActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -180,37 +180,35 @@
                               <EmptySpace min="-2" pref="868" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="txtNotiBanRo1" alignment="1" min="-2" pref="499" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel5" min="-2" pref="42" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                                  <Component id="cbTypeKey1" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="cbTypeBanMa1" min="-2" max="-2" attributes="0"/>
-                                              </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jLabel5" min="-2" pref="42" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                                              <Component id="cbbTypeKey1" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane3" min="-2" pref="499" max="-2" attributes="0"/>
-                                              <Component id="txtNotiKey1" min="-2" pref="500" max="-2" attributes="0"/>
-                                              <Component id="txtKey1" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
+                                              <Component id="cbbTypeCipher1" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel4" min="-2" pref="43" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="cbTypeBanRo1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jScrollPane1" min="-2" pref="499" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jScrollPane3" min="-2" pref="499" max="-2" attributes="0"/>
+                                          <Component id="txtKey1" alignment="1" pref="500" max="32767" attributes="0"/>
+                                          <Component id="txtNotiKey1" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel4" min="-2" pref="43" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cbbTypePlain1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jScrollPane1" min="-2" pref="499" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="txtNotiPlain1" alignment="1" min="-2" pref="499" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -218,7 +216,7 @@
                                   <Component id="btnReset1" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtTime1" max="32767" attributes="0"/>
                                   <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnMaHoa" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnEncode" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -236,25 +234,25 @@
                           <Component id="btnReset1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbTypeBanRo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbbTypePlain1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtNotiBanRo1" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtNotiPlain1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtKey1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbTypeKey1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbbTypeKey1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtNotiKey1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnMaHoa" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnEncode" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -264,7 +262,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="cbTypeBanMa1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbbTypeCipher1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
@@ -292,12 +290,12 @@
                 <Property name="text" type="java.lang.String" value="B&#x1ea3;n r&#xf5;:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbTypeBanRo1">
+            <Component class="javax.swing.JComboBox" name="cbbTypePlain1">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="Hex"/>
-                    <StringItem index="1" value="Chu&#x1ed7;i"/>
+                    <StringItem index="1" value="UTF-8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -312,7 +310,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtBanRo1">
+                <Component class="javax.swing.JTextArea" name="txtPlain1">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
@@ -321,12 +319,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JComboBox" name="cbTypeKey1">
+            <Component class="javax.swing.JComboBox" name="cbbTypeKey1">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="Hex"/>
-                    <StringItem index="1" value="Chu&#x1ed7;i"/>
+                    <StringItem index="1" value="UTF-8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -341,12 +339,12 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtKey1">
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbTypeBanMa1">
+            <Component class="javax.swing.JComboBox" name="cbbTypeCipher1">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="Hex"/>
-                    <StringItem index="1" value="Chu&#x1ed7;i"/>
+                    <StringItem index="1" value="UTF-8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -359,12 +357,12 @@
                 <Property name="text" type="java.lang.String" value="B&#x1ea3;n m&#xe3;:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnMaHoa">
+            <Component class="javax.swing.JButton" name="btnEncode">
               <Properties>
                 <Property name="text" type="java.lang.String" value="M&#xe3; h&#xf3;a"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMaHoaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEncodeActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
@@ -412,7 +410,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtBanMa1">
+                <Component class="javax.swing.JTextArea" name="txtCipher1">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
@@ -422,7 +420,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="txtNotiBanRo1">
+            <Component class="javax.swing.JLabel" name="txtNotiPlain1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="11" style="3"/>
@@ -456,37 +454,37 @@
                               <EmptySpace min="-2" pref="868" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="txtNotiBanMa2" min="-2" pref="500" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="cbTypeBanMa2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jScrollPane2" min="-2" pref="499" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel10" min="-2" pref="43" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="jLabel9" min="-2" pref="42" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="cbbTypePlain2" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="cbbTypeKey2" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel10" min="-2" pref="43" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel9" min="-2" pref="42" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="cbTypeBanRo2" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="cbTypeKey2" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane4" alignment="0" min="-2" pref="499" max="-2" attributes="0"/>
-                                              <Component id="txtNotiKey2" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
-                                              <Component id="txtKey2" alignment="0" min="-2" pref="500" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jScrollPane4" alignment="0" min="-2" pref="499" max="-2" attributes="0"/>
+                                          <Component id="txtKey2" alignment="1" pref="500" max="32767" attributes="0"/>
+                                          <Component id="txtNotiKey2" alignment="1" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cbbTypeCipher2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="txtNotiCipher2" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="jScrollPane2" alignment="1" pref="499" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -495,7 +493,7 @@
                                   <Component id="btnCopy2" alignment="0" pref="110" max="32767" attributes="0"/>
                                   <Component id="jLabel19" alignment="0" max="32767" attributes="0"/>
                                   <Component id="btnReset2" max="32767" attributes="0"/>
-                                  <Component id="btnGiaiMa" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnDecode" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtTime2" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
@@ -513,22 +511,22 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbTypeBanMa2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbbTypeCipher2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btnReset2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtNotiBanMa2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnGiaiMa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNotiCipher2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnDecode" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtKey2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbTypeKey2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbbTypeKey2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -536,7 +534,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="cbTypeBanRo2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbbTypePlain2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
@@ -572,12 +570,12 @@
                 <Property name="text" type="java.lang.String" value="B&#x1ea3;n m&#xe3;:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbTypeBanMa2">
+            <Component class="javax.swing.JComboBox" name="cbbTypeCipher2">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="Hex"/>
-                    <StringItem index="1" value="Chu&#x1ed7;i"/>
+                    <StringItem index="1" value="UTF-8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -592,7 +590,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtBanMa2">
+                <Component class="javax.swing.JTextArea" name="txtCipher2">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
@@ -601,12 +599,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JComboBox" name="cbTypeKey2">
+            <Component class="javax.swing.JComboBox" name="cbbTypeKey2">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="Hex"/>
-                    <StringItem index="1" value="Chu&#x1ed7;i"/>
+                    <StringItem index="1" value="UTF-8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -621,12 +619,12 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtKey2">
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbTypeBanRo2">
+            <Component class="javax.swing.JComboBox" name="cbbTypePlain2">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
                     <StringItem index="0" value="Hex"/>
-                    <StringItem index="1" value="Chu&#x1ed7;i"/>
+                    <StringItem index="1" value="UTF-8"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -639,12 +637,12 @@
                 <Property name="text" type="java.lang.String" value="B&#x1ea3;n r&#xf5;:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnGiaiMa">
+            <Component class="javax.swing.JButton" name="btnDecode">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gi&#x1ea3;i m&#xe3;"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGiaiMaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDecodeActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel19">
@@ -693,7 +691,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtBanRo2">
+                <Component class="javax.swing.JTextArea" name="txtPlain2">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
@@ -703,7 +701,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="txtNotiBanMa2">
+            <Component class="javax.swing.JLabel" name="txtNotiCipher2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="11" style="3"/>

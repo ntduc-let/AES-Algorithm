@@ -19,15 +19,15 @@ public class AESAlgorithm {
     //Kiểm tra giá trị kích thước khóa
     public static boolean isValidKeySize(int keySize) {
         switch(keySize) {
-            case AESAlgorithm.KEY_SIZE_128:
+            case KEY_SIZE_128:
                 Nk = 4;
                 Nr = 10;
                 return true;
-            case AESAlgorithm.KEY_SIZE_192:
+            case KEY_SIZE_192:
                 Nk = 6;
                 Nr = 12;
                 return true;
-            case AESAlgorithm.KEY_SIZE_256:
+            case KEY_SIZE_256:
                 Nk = 8;
                 Nr = 14;
                 return true;
@@ -82,7 +82,7 @@ public class AESAlgorithm {
     
     public AESAlgorithm(int iBlockLength) {
         if(!isValidKeySize(iBlockLength)){
-            throw new java.lang.UnsupportedOperationException("Khóa chỉ có độ dài: 128, 192, 256");
+            System.out.println("Khóa chỉ có độ dài: 128, 192, 256");
         }
     }
     
@@ -333,8 +333,8 @@ public class AESAlgorithm {
     //Chuyển đổi chuỗi Hex thành Hex
     public byte[] decodeHexString(String hexString) {
         if (hexString.length() % 2 == 1) {
-            throw new IllegalArgumentException(
-              "Invalid hexadecimal String supplied.");
+            System.out.println("Invalid hexadecimal String supplied.");
+            return null;
         }
 
         byte[] bytes = new byte[hexString.length() / 2];
@@ -353,8 +353,8 @@ public class AESAlgorithm {
     private int toDigit(char hexChar) {
         int digit = Character.digit(hexChar, 16);
         if(digit == -1) {
-            throw new IllegalArgumentException(
-              "Invalid Hexadecimal Character: "+ hexChar);
+            System.out.println("Invalid Hexadecimal Character: "+ hexChar);
+            return 0;
         }
         return digit;
     }
