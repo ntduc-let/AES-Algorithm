@@ -574,14 +574,17 @@ public class AESForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCopy2ActionPerformed
 
     private void btnDecodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecodeActionPerformed
+        txtNotiCipher2.setText(" ");
         if(txtCipher2.getText().isEmpty()){
             txtNotiCipher2.setText("Vui lòng nhập bản rõ!");
+            return;
+        }else if(cbbTypeCipher2.getSelectedIndex()==TYPE_HEX && txtCipher2.getText().length()%2==1){
+            txtNotiCipher2.setText("Định dạng bản rõ không hợp lệ!");
             return;
         }else if(txtKey2.getText().isEmpty()){
             txtNotiKey2.setText("Vui lòng nhập khóa");
             return;
         }
-        
         
         LocalTime timeBegin, timeEnd, timeDelay;
         timeBegin = LocalTime.now();
@@ -650,8 +653,12 @@ public class AESForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReset1ActionPerformed
 
     private void btnEncodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncodeActionPerformed
+        txtNotiPlain1.setText(" ");        
         if(txtPlain1.getText().isEmpty()){
             txtNotiPlain1.setText("Vui lòng nhập bản mã!");
+            return;
+        }else if(cbbTypePlain1.getSelectedIndex()==TYPE_HEX && txtPlain1.getText().length()%2==1){
+            txtNotiPlain1.setText("Định dạng bản mã không hợp lệ!");
             return;
         }else if(txtKey1.getText().isEmpty()){
             txtNotiKey1.setText("Vui lòng nhập khóa");
@@ -916,14 +923,15 @@ public class AESForm extends javax.swing.JFrame {
                         }
                     }
                 }
-
+                
                 byteConvert2 = arrayListToArray(byteConvert);
-
+                System.out.println(byteConvert2.length);
                 StringBuilder sb = new StringBuilder();
                 for (byte b1 : byteConvert2) {
                     sb.append(String.format("%02X", b1));
-                    str += sb.toString();
+                    //str += sb.toString();
                 }
+                str = sb.toString();
                 break;
             case TYPE_UTF8:
                 //Giải mã các phiên bản
@@ -997,7 +1005,7 @@ public class AESForm extends javax.swing.JFrame {
 
     private byte[] arrayListToArray(ArrayList<Byte> arrayList) {
         byte[] array = null;
-        for (int i = arrayList.size() - 1; i > 0; i--) {
+        for (int i = arrayList.size() - 1; i >= 0; i--) {
             if (arrayList.get(i) == (byte) 0x09) {
                 arrayList.remove(i);
             } else {
