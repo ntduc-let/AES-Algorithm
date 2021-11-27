@@ -1,23 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package aes;
 
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
  *
- * @author ducle
+ * @author ntduc-let
  */
 public class AESForm extends javax.swing.JFrame {
 
@@ -31,63 +31,489 @@ public class AESForm extends javax.swing.JFrame {
     public static final String LOOP_NUMBER_10 = "10";
     public static final String LOOP_NUMBER_12 = "12";
     public static final String LOOP_NUMBER_14 = "14";
+    
+    private final DocumentListener dlKey1 = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            updateNotiKey(cbbTypeKey1, txtKey1, txtNotiKey1);
+        }
 
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            updateNotiKey(cbbTypeKey1, txtKey1, txtNotiKey1);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            updateNotiKey(cbbTypeKey1, txtKey1, txtNotiKey1);
+        }
+    };
+    private final DocumentListener dlKey2 = new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            updateNotiKey(cbbTypeKey2, txtKey2, txtNotiKey2);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            updateNotiKey(cbbTypeKey2, txtKey2, txtNotiKey2);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            updateNotiKey(cbbTypeKey2, txtKey2, txtNotiKey2);
+        }
+    };
+    private final ActionListener myClick = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource().equals(cbbSizeKey)){
+                cbbSizeKeyClick();
+            }else if(e.getSource().equals(btnExit)){
+                btnExitClick();
+            }else if(e.getSource().equals(btnReset1)){
+                btnReset1Click();
+            }else if(e.getSource().equals(btnEncode)){
+                btnEncodeClick();
+            }else if(e.getSource().equals(btnCopy1)){
+                btnCopyClick(txtCipher1.getText());
+            }else if(e.getSource().equals(btnReset2)){
+                btnReset2Click();
+            }else if(e.getSource().equals(btnDecode)){
+                btnDecodeClick();
+            }else if(e.getSource().equals(btnCopy2)){
+                btnCopyClick(txtPlain2.getText());
+            }
+        }
+    };
     /**
      * Creates new form AESForm
      */
     public AESForm() {
         initComponents();
 
-        //Set title icon
+        //Đặt icon
         Image icon = Toolkit.getDefaultToolkit().getImage(URL_ICON);
         setIconImage(icon);
 
         //Đặt form ra giữa
         setLocationRelativeTo(null);
 
-        txtKey1.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateNoti1();
-
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateNoti1();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateNoti1();
-            }
-        });
-
-        txtKey2.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateNoti2();
-
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateNoti2();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateNoti2();
-            }
-        });
+        //gán sự kiện
+        txtKey1.getDocument().addDocumentListener(dlKey1);
+        txtKey2.getDocument().addDocumentListener(dlKey2);
+        cbbSizeKey.addActionListener(myClick);
+        btnExit.addActionListener(myClick);
+        btnReset1.addActionListener(myClick);
+        btnEncode.addActionListener(myClick);
+        btnCopy1.addActionListener(myClick);
+        btnReset2.addActionListener(myClick);
+        btnDecode.addActionListener(myClick);
+        btnCopy2.addActionListener(myClick);
+        
+        //Tắt chức năng UTF-8 của bản mã
+        cbbTypeCipher1.setEnabled(false);
+        cbbTypeCipher2.setEnabled(false);
     }
 
+    //Cập nhật cảnh báo khóa
+    private void updateNotiKey(JComboBox cbbTypeKey, JTextField txtKey, JLabel txtNotiKey) {
+        int sizeKey = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
+        int lengKey = sizeKey/8;
+
+        switch (cbbTypeKey.getSelectedIndex()) {
+            case TYPE_HEX -> {
+                if (txtKey.getText().length() == 0 || txtKey.getText().length() == lengKey * 2) {
+                    txtNotiKey.setText(" ");
+                } else if (txtKey.getText().length() < lengKey * 2) {
+                    txtNotiKey.setText("Độ dài khóa chưa đủ");
+                } else if (txtKey.getText().length() > lengKey * 2) {
+                    txtNotiKey.setText("Độ dài khóa vượt quá");
+                }
+            }
+            case TYPE_UTF8 -> {
+                int length = txtKey.getText().getBytes(StandardCharsets.UTF_8).length;
+                if (length == 0 || length == lengKey) {
+                    txtNotiKey.setText(" ");
+                } else if (length < lengKey) {
+                    txtNotiKey.setText("Độ dài khóa chưa đủ");
+                } else if (length > lengKey) {
+                    txtNotiKey.setText("Độ dài khóa vượt quá");
+                }
+            }
+        }
+    }
+    
+    //Thay đổi kích thước khóa
+    private void cbbSizeKeyClick(){
+        //Cập nhật cảnh báo khóa
+        updateNotiKey(cbbTypeKey1, txtKey1, txtNotiKey1);
+        updateNotiKey(cbbTypeKey2, txtKey2, txtNotiKey2);
+        
+        //Hiển thị số vòng lặp
+        String sizeKey = cbbSizeKey.getSelectedItem().toString();
+        switch (sizeKey) {
+            case KEY_SIZE_128 -> txtLoopNumber.setText(LOOP_NUMBER_10);
+            case KEY_SIZE_192 -> txtLoopNumber.setText(LOOP_NUMBER_12);
+            case KEY_SIZE_256 -> txtLoopNumber.setText(LOOP_NUMBER_14);
+        }
+    }
+    
+    //Thoát chương trình
+    private void btnExitClick(){
+        System.exit(0); 
+    }
+    
+    //Reset form Mã hóa
+    private void btnReset1Click(){
+        txtCipher1.setText("");
+        txtPlain1.setText("");
+        txtKey1.setText("");
+        txtTime1.setText("00:00:00.00");
+        txtNotiKey1.setText(" ");
+
+        cbbTypeCipher1.setSelectedIndex(0);
+        cbbTypePlain1.setSelectedIndex(0);
+        cbbTypeKey1.setSelectedIndex(0);
+    }
+    
+    //Thực hiện mã hóa
+    private void btnEncodeClick(){
+        //Cập nhật cảnh báo        
+        txtNotiPlain1.setText(" ");        
+        if(txtPlain1.getText().isEmpty()){
+            txtNotiPlain1.setText("Vui lòng nhập bản rõ!");
+            return;
+        }else if(txtKey1.getText().isEmpty()){
+            txtNotiKey1.setText("Vui lòng nhập khóa");
+            return;
+        }
+        
+        LocalTime timeBegin, timeEnd, timeDelay; //Tính thời gian thực thi
+        timeBegin = LocalTime.now(); //Lấy thời gian bắt đầu thực thi
+
+        int size = 0; //Kích thước khóa
+        int ver = 0; //Số phiên bản
+
+        String strCipher = ""; //Chuỗi đã mã hóa
+
+        byte[] byteKey = null; //Mảng khóa
+        int[] byteKeyExpansion; //Mảng khóa mở rộng
+
+        byte[] bytePlain = null; //Mảng byte chuyển từ chuỗi bản rõ đầu vào
+        byte[][][] bytePlainConvert; //Mảng byte chuyển từ mảng bytePlain
+
+        size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString()); //Lấy kích thước khóa
+
+        AESAlgorithm aes = new AESAlgorithm(size);
+
+        //Bắt lỗi không đúng định dạng
+        try {
+            bytePlain = getByte(aes, cbbTypePlain1, txtPlain1.getText()); //Chuyển chuỗi bản rõ thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiPlain1.setText(e.getMessage());
+            return;
+        }
+        
+        ver = getVer(bytePlain); //Xác định số phiên bản
+                
+        //Bắt lỗi không đúng định dạng
+        try {
+            byteKey = getByte(aes, cbbTypeKey1, txtKey1.getText()); //Chuyển chuỗi khóa thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiKey1.setText(e.getMessage());
+            return;
+        }
+        
+        //Kiểm tra độ dài khóa
+        if(byteKey.length != size/8){
+            return;
+        }
+        
+        byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
+
+        bytePlainConvert = getByteConvert(ver, bytePlain); //Chuyển mã thành nhiều phiên bản byte[][]
+        
+        strCipher = getStrEncode(aes, ver, byteKeyExpansion, cbbTypeCipher1, bytePlainConvert); //Chuỗi đã mã hóa
+
+        txtCipher1.setText(strCipher);
+
+        timeEnd = LocalTime.now(); //lấy thời gian kết thúc thực thi
+
+        //Tính khoảng thời gian thực thi
+        timeDelay = timeEnd.minusHours(timeBegin.getHour())
+                .minusMinutes(timeBegin.getMinute())
+                .minusSeconds(timeBegin.getSecond())
+                .minusNanos(timeBegin.getNano());
+        
+        String strTimeDelay = "" + timeDelay; //00:00:00.00000000
+
+        if (strTimeDelay.length() <= LENGTH_TIME) {
+            txtTime1.setText(strTimeDelay);
+        } else {
+            txtTime1.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
+        }
+    }
+    
+    //Reset form Giải mã
+    private void btnReset2Click(){
+        txtCipher2.setText("");
+        txtPlain2.setText("");
+        txtKey2.setText("");
+        txtTime2.setText("00:00:00.00");
+        txtNotiKey2.setText(" ");
+
+        cbbTypeCipher2.setSelectedIndex(0);
+        cbbTypePlain2.setSelectedIndex(0);
+        cbbTypeKey2.setSelectedIndex(0);
+    }
+    
+    //Thực hiện giải mã
+    private void btnDecodeClick(){
+        //Cập nhật cảnh báo
+        txtNotiCipher2.setText(" ");
+        if(txtCipher2.getText().isEmpty()){
+            txtNotiCipher2.setText("Vui lòng nhập bản mã!");
+            return;
+        }else if(txtKey2.getText().isEmpty()){
+            txtNotiKey2.setText("Vui lòng nhập khóa");
+            return;
+        }
+        
+        LocalTime timeBegin, timeEnd, timeDelay; //Tính thời gian thực thi
+        timeBegin = LocalTime.now(); //Lấy thời gian bắt đầu thực thi
+
+        int size = 0; //Kích thước khóa
+        int ver = 0; //Số phiên bản
+
+        String strPlain = ""; //Chuỗi đã giải mã
+
+        byte[] byteKey = null; //Mảng khóa
+        int[] byteKeyExpansion; //Mảng khóa mở rộng
+
+        byte[] byteCipher = null; //Mảng byte chuyển từ chuỗi bản mã đầu vào
+        byte[][][] byteCipherConvert; //Mảng byte chuyển từ mảng byteCipher
+
+        size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString()); //Lấy kích thước khóa
+
+        AESAlgorithm aes = new AESAlgorithm(size);
+
+        //Bắt lỗi không đúng định dạng
+        try {
+            byteCipher = getByte(aes, cbbTypeCipher2, txtCipher2.getText()); //Chuyển chuỗi bản mã thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiCipher2.setText(e.getMessage());
+            return;
+        }
+        
+        //Kiểm tra bản mã đã đủ kí tự chưa
+        if(byteCipher.length%16!=0){
+            txtNotiCipher2.setText("Bản mã không hợp lệ");
+            return;
+        }
+        
+        ver = getVer(byteCipher); //Xác định số phiên bản
+
+        try {
+            byteKey = getByte(aes, cbbTypeKey2, txtKey2.getText()); //Chuyển chuỗi key thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiKey2.setText(e.getMessage());
+            return;
+        }
+        
+        if(byteKey.length != size/8){
+            return;
+        }
+        
+        byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
+        
+        byteCipherConvert = getByteConvert(ver, byteCipher); //Chuyển mã thành nhiều phiên bản byte[][]
+
+        strPlain = getStrDecode(aes, ver, byteKeyExpansion, cbbTypePlain2, byteCipherConvert); //Chuỗi đã giải mã
+
+        txtPlain2.setText(strPlain);
+
+        timeEnd = LocalTime.now(); //lấy thời gian kết thúc thực thi
+
+        //Tính khoảng thời gian thực thi
+        timeDelay = timeEnd.minusHours(timeBegin.getHour())
+                .minusMinutes(timeBegin.getMinute())
+                .minusSeconds(timeBegin.getSecond())
+                .minusNanos(timeBegin.getNano());
+
+        String strTimeDelay = "" + timeDelay; //00:00:00.00000000
+
+        if (strTimeDelay.length() <= LENGTH_TIME) {
+            txtTime2.setText(strTimeDelay);
+        } else {
+            txtTime2.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
+        }
+    }
+    
+    //Copy nội dung vào Clipboard
+    private void btnCopyClick(String noiDung){
+        StringSelection stringSelection = new StringSelection(noiDung);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+    }
+    
+    //Chuyển nội dung thành 1 mảng byte[]
+    private byte[] getByte(AESAlgorithm aes, JComboBox<String> cbType, String noiDung){
+        switch (cbType.getSelectedIndex()) {
+            case TYPE_HEX -> {
+                return aes.decodeHexString(noiDung); //Chuyển chuỗi Hex thành mảng Hex[]
+            }
+            case TYPE_UTF8 -> {
+                return noiDung.getBytes(StandardCharsets.UTF_8); //Chuyển chuỗi đầu vào sang byte[]
+            }
+        }
+        return null;
+    }
+    
+    //Xác định phiên bản
+    private int getVer(byte[] b) {
+        if (b.length % 16 == 0) {
+            return b.length / 16;
+        } else {
+            return b.length / 16 + 1;
+        }
+    }
+    
+    //Chuyển mảng byte[] thành mảng byte[][][]
+    private byte[][][] getByteConvert(int ver, byte[] b) {
+        byte[][][] bConvert = new byte[ver][4][4];
+        for (int v = 0; v < ver; v++) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (16 * v + 4 * i + j < b.length) {
+                        bConvert[v][j][i] = b[16 * v + 4 * i + j];
+                    } else {
+                        bConvert[v][j][i] = (byte) 0x09; //Thêm padding
+                    }
+                }
+            }
+        }
+        return bConvert;
+    }
+    
+    //Xác định chuỗi mã hóa
+    private String getStrEncode(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] bConvert) {
+        String str = "";
+        byte[][][] b = new byte[ver][4][4];
+        switch (cbType.getSelectedIndex()) {
+            case TYPE_HEX -> {
+                //Mã hóa các phiên bản
+                for (int v = 0; v < ver; v++) {
+                    b[v] = aes.cipher(bConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
+
+                    //Chuyển mảng byte thành chuỗi hex
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            sb.append(String.format("%02X", b[v][j][i]));
+                        }
+                    }
+                    str += sb.toString();
+                }
+            }
+            case TYPE_UTF8 -> {
+                byte[] byteOutConvert = new byte[ver * 4 * 4];
+                //Mã hóa các phiên bản
+                for (int v = 0; v < ver; v++) {
+                    b[v] = aes.cipher(bConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
+
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            byteOutConvert[16 * v + 4 * i + j] = b[v][j][i];
+                        }
+                    }
+                    //Chuyển mảng byte thành chuỗi UTF-8
+                    str = new String(byteOutConvert, StandardCharsets.UTF_8);
+                }
+            }
+        }
+        return str;
+    }
+    
+    //Xác định chuỗi giải mã
+    private String getStrDecode(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] bConvert) {
+        String str = "";
+        byte[][][] b = new byte[ver][4][4];
+        ArrayList<Byte> byteConvert = new ArrayList<>();
+        byte[] byteConvert2 = null;
+        switch (cbType.getSelectedIndex()) {
+            case TYPE_HEX -> {
+                //Giải mã các phiên bản
+                for (int v = 0; v < ver; v++) {
+                    b[v] = aes.invCipher(bConvert[v], byteKeyExpansion); //Giải mã phiên bản v
+                    
+                    //Chuyển sang mảng 1 chiều
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            byteConvert.add(b[v][j][i]);
+                        }
+                    }
+                }
+                
+                byteConvert2 = arrayListToArray(byteConvert); //Chuyển từ ArrayList sang array
+
+                //Chuyển mảng byte thành chuỗi hex
+                StringBuilder sb = new StringBuilder();
+                for (byte b1 : byteConvert2) {
+                    sb.append(String.format("%02X", b1));
+                }
+                str = sb.toString();
+            }
+            case TYPE_UTF8 -> {
+                //Giải mã các phiên bản
+                for (int v = 0; v < ver; v++) {
+                    b[v] = aes.invCipher(bConvert[v], byteKeyExpansion); //Giải mã phiên bản v
+
+                    //Chuyển sang mảng 1 chiều
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            byteConvert.add(b[v][j][i]);
+                        }
+                    }
+                }
+                
+                byteConvert2 = arrayListToArray(byteConvert); //Chuyển từ ArrayList sang array
+                
+                //Chuyển mảng byte thành chuỗi UTF-8
+                str = new String(byteConvert2, StandardCharsets.UTF_8);
+            }
+        }
+        return str;
+    }
+    
+    //Chuyển ArrayList thành array
+    private byte[] arrayListToArray(ArrayList<Byte> arrayList) {
+        byte[] array = null;
+        
+        //Loại bỏ các padding phía sau
+        for (int i = arrayList.size() - 1; i >= 0; i--) {
+            if (arrayList.get(i) == (byte) 0x09) {
+                arrayList.remove(i);
+            } else {
+                array = new byte[i + 1];
+                break;
+            }
+        }
+        
+        //Khởi tạo array
+        for (int i = 0; i < array.length; i++) {
+            array[i] = arrayList.get(i);
+        }
+        return array;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -149,11 +575,6 @@ public class AESForm extends javax.swing.JFrame {
         jLabel1.setText("Độ dài khóa:");
 
         cbbSizeKey.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "128", "192", "256" }));
-        cbbSizeKey.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbSizeKeyActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Số lần lặp:");
 
@@ -161,11 +582,6 @@ public class AESForm extends javax.swing.JFrame {
         txtLoopNumber.setEnabled(false);
 
         btnExit.setText("Thoát");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -221,11 +637,6 @@ public class AESForm extends javax.swing.JFrame {
         jLabel6.setText("Bản mã:");
 
         btnEncode.setText("Mã hóa");
-        btnEncode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEncodeActionPerformed(evt);
-            }
-        });
 
         jLabel11.setText("Thời gian (s):");
 
@@ -237,18 +648,8 @@ public class AESForm extends javax.swing.JFrame {
         txtNotiKey1.setText(" ");
 
         btnReset1.setText("Reset");
-        btnReset1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReset1ActionPerformed(evt);
-            }
-        });
 
         btnCopy1.setText("Sao chép");
-        btnCopy1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCopy1ActionPerformed(evt);
-            }
-        });
 
         txtCipher1.setColumns(20);
         txtCipher1.setLineWrap(true);
@@ -367,11 +768,6 @@ public class AESForm extends javax.swing.JFrame {
         jLabel10.setText("Bản rõ:");
 
         btnDecode.setText("Giải mã");
-        btnDecode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecodeActionPerformed(evt);
-            }
-        });
 
         jLabel19.setText("Thời gian (s):");
 
@@ -384,18 +780,8 @@ public class AESForm extends javax.swing.JFrame {
         txtNotiKey2.setToolTipText("");
 
         btnReset2.setText("Reset");
-        btnReset2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReset2ActionPerformed(evt);
-            }
-        });
 
         btnCopy2.setText("Sao chép");
-        btnCopy2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCopy2ActionPerformed(evt);
-            }
-        });
 
         txtPlain2.setColumns(20);
         txtPlain2.setLineWrap(true);
@@ -533,288 +919,7 @@ public class AESForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_btnExitActionPerformed
-
-    private void cbbSizeKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbSizeKeyActionPerformed
-        String sizeKey = cbbSizeKey.getSelectedItem().toString();
-        updateNoti1();
-        updateNoti2();
-        switch (sizeKey) {
-            case KEY_SIZE_128:
-                txtLoopNumber.setText(LOOP_NUMBER_10);
-                break;
-            case KEY_SIZE_192:
-                txtLoopNumber.setText(LOOP_NUMBER_12);
-                break;
-            case KEY_SIZE_256:
-                txtLoopNumber.setText(LOOP_NUMBER_14);
-                break;
-        }
-    }//GEN-LAST:event_cbbSizeKeyActionPerformed
-
-    private void btnReset2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset2ActionPerformed
-        txtCipher2.setText("");
-        txtPlain2.setText("");
-        txtKey2.setText("");
-        txtTime2.setText("00:00:00.00");
-        txtNotiKey2.setText(" ");
-
-        cbbTypeCipher2.setSelectedIndex(0);
-        cbbTypePlain2.setSelectedIndex(0);
-        cbbTypeKey2.setSelectedIndex(0);
-    }//GEN-LAST:event_btnReset2ActionPerformed
-
-    private void btnCopy2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy2ActionPerformed
-        StringSelection stringSelection = new StringSelection(txtPlain2.getText());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-    }//GEN-LAST:event_btnCopy2ActionPerformed
-
-    private void btnDecodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecodeActionPerformed
-        txtNotiCipher2.setText(" ");
-        if(txtCipher2.getText().isEmpty()){
-            txtNotiCipher2.setText("Vui lòng nhập bản mã!");
-            return;
-        }else if(txtKey2.getText().isEmpty()){
-            txtNotiKey2.setText("Vui lòng nhập khóa");
-            return;
-        }
-        
-        LocalTime timeBegin, timeEnd, timeDelay;
-        timeBegin = LocalTime.now();
-
-        int size = 0; //Kích thước khóa
-        int ver = 0; //Số phiên bản
-
-        String strPlain = ""; //Chuỗi đã giải mã
-
-        byte[] byteKey = null; //Mảng key
-        int[] byteKeyExpansion; //Mảng key mở rộng
-
-        byte[] byteCipher = null; //Mảng byte chuyển từ chuỗi strCipher
-        byte[][][] byteCipherConvert; //Mảng byte chuyển từ mảng byteCipher
-
-        size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
-
-        AESAlgorithm aes = new AESAlgorithm(size);
-                
-        try {
-            byteKey = getByte(aes, cbbTypeKey2, txtKey2.getText()); //Chuyển chuỗi key thành mảng byte[]
-        } catch (Exception e) {
-            txtNotiKey2.setText(e.getMessage());
-            return;
-        }
-        
-        byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
-
-        try {
-            byteCipher = getByte(aes, cbbTypeCipher2, txtCipher2.getText()); //Chuyển chuỗi bản mã thành mảng byte[]
-        } catch (Exception e) {
-            txtNotiCipher2.setText(e.getMessage());
-            return;
-        }
-        
-        ver = getVer(byteCipher); //Xác định số phiên bản
-
-        byteCipherConvert = getByteConvert(ver, byteCipher); //Chuyển mã thành nhiều phiên bản byte[][]
-
-        strPlain = getStrDecode(aes, ver, byteKeyExpansion, cbbTypePlain2, byteCipherConvert); //Chuỗi đã giải mã
-
-        txtPlain2.setText(strPlain);
-
-        timeEnd = LocalTime.now();
-
-        timeDelay = timeEnd.minusHours(timeBegin.getHour())
-                .minusMinutes(timeBegin.getMinute())
-                .minusSeconds(timeBegin.getSecond())
-                .minusNanos(timeBegin.getNano());
-
-        String strTimeDelay = "" + timeDelay; //00:00:00.00000000
-
-        if (strTimeDelay.length() <= LENGTH_TIME) {
-            txtTime2.setText(strTimeDelay);
-        } else {
-            txtTime2.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
-        }
-    }//GEN-LAST:event_btnDecodeActionPerformed
-
-    private void btnCopy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopy1ActionPerformed
-        StringSelection stringSelection = new StringSelection(txtCipher1.getText());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-    }//GEN-LAST:event_btnCopy1ActionPerformed
-
-    private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
-        txtCipher1.setText("");
-        txtPlain1.setText("");
-        txtKey1.setText("");
-        txtTime1.setText("00:00:00.00");
-        txtNotiKey1.setText(" ");
-
-        cbbTypeCipher1.setSelectedIndex(0);
-        cbbTypePlain1.setSelectedIndex(0);
-        cbbTypeKey1.setSelectedIndex(0);
-    }//GEN-LAST:event_btnReset1ActionPerformed
-
-    private void btnEncodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncodeActionPerformed
-        txtNotiPlain1.setText(" ");        
-        if(txtPlain1.getText().isEmpty()){
-            txtNotiPlain1.setText("Vui lòng nhập bản mã!");
-            return;
-        }else if(txtKey1.getText().isEmpty()){
-            txtNotiKey1.setText("Vui lòng nhập khóa");
-            return;
-        }
-        
-        LocalTime timeBegin, timeEnd, timeDelay;
-        timeBegin = LocalTime.now();
-
-        int size = 0; //Kích thước khóa
-        int ver = 0; //Số phiên bản
-
-        String strCipher = ""; //Chuỗi đã mã hóa
-
-        byte[] byteKey = null; //Mảng key
-        int[] byteKeyExpansion; //Mảng key mở rộng
-
-        byte[] bytePlain = null; //Mảng byte chuyển từ chuỗi strPlain
-        byte[][][] bytePlainConvert; //Mảng byte chuyển từ mảng bytePlain
-
-        size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
-
-        AESAlgorithm aes = new AESAlgorithm(size);
-
-        try {
-            byteKey = getByte(aes, cbbTypeKey1, txtKey1.getText()); //Chuyển chuỗi key thành mảng byte[]
-        } catch (Exception e) {
-            txtNotiKey1.setText(e.getMessage());
-            return;
-        }
-        
-        byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
-
-        try {
-            bytePlain = getByte(aes, cbbTypePlain1, txtPlain1.getText()); //Chuyển chuỗi bản rõ thành mảng byte[]
-        } catch (Exception e) {
-            txtNotiPlain1.setText(e.getMessage());
-            return;
-        }
-        
-        ver = getVer(bytePlain); //Xác định số phiên bản
-
-        bytePlainConvert = getByteConvert(ver, bytePlain); //Chuyển mã thành nhiều phiên bản byte[][]
-
-        strCipher = getStrEncode(aes, ver, byteKeyExpansion, cbbTypeCipher1, bytePlainConvert); //Chuỗi đã mã hóa
-
-        txtCipher1.setText(strCipher);
-
-        timeEnd = LocalTime.now();
-
-        timeDelay = timeEnd.minusHours(timeBegin.getHour())
-                .minusMinutes(timeBegin.getMinute())
-                .minusSeconds(timeBegin.getSecond())
-                .minusNanos(timeBegin.getNano());
-
-        String strTimeDelay = "" + timeDelay; //00:00:00.00000000
-
-        if (strTimeDelay.length() <= LENGTH_TIME) {
-            txtTime1.setText(strTimeDelay);
-        } else {
-            txtTime1.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
-        }
-    }//GEN-LAST:event_btnEncodeActionPerformed
-
-    private void updateNoti1() {
-        int sizeKey = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
-        int lengKey = 0;
-
-        switch (sizeKey) {
-            case 128:
-                lengKey = 16;
-                break;
-            case 192:
-                lengKey = 24;
-                break;
-            case 256:
-                lengKey = 32;
-                break;
-        }
-
-        switch (cbbTypeKey1.getSelectedIndex()) {
-            case 0: //Hex
-                if (txtKey1.getText().length() == 0) {
-                    txtNotiKey1.setText(" ");
-                } else if (txtKey1.getText().length() < lengKey * 2) {
-                    txtNotiKey1.setText("Độ dài khóa chưa đủ");
-                } else if (txtKey1.getText().length() > lengKey * 2) {
-                    txtNotiKey1.setText("Độ dài khóa vượt quá");
-                } else {
-                    txtNotiKey1.setText(" ");
-                }
-                break;
-            case 1: //Chuỗi
-                int bytestr = 0;
-                bytestr = txtKey1.getText().getBytes(StandardCharsets.UTF_8).length;
-                if (bytestr == 0) {
-                    txtNotiKey1.setText(" ");
-                } else if (bytestr < lengKey) {
-                    txtNotiKey1.setText("Độ dài khóa chưa đủ");
-                } else if (bytestr > lengKey) {
-                    txtNotiKey1.setText("Độ dài khóa vượt quá");
-                } else {
-                    txtNotiKey1.setText(" ");
-                }
-                break;
-        }
-    }
-
-    private void updateNoti2() {
-        int sizeKey = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
-        int lengKey = 0;
-
-        switch (sizeKey) {
-            case 128:
-                lengKey = 16;
-                break;
-            case 192:
-                lengKey = 24;
-                break;
-            case 256:
-                lengKey = 32;
-                break;
-        }
-
-        switch (cbbTypeKey2.getSelectedIndex()) {
-            case 0: //Hex
-                if (txtKey2.getText().length() == 0) {
-                    txtNotiKey2.setText(" ");
-                } else if (txtKey2.getText().length() < lengKey * 2) {
-                    txtNotiKey2.setText("Độ dài khóa chưa đủ");
-                } else if (txtKey2.getText().length() > lengKey * 2) {
-                    txtNotiKey2.setText("Độ dài khóa vượt quá");
-                } else {
-                    txtNotiKey2.setText(" ");
-                }
-                break;
-            case 1: //Chuỗi
-                int bytestr = 0;
-                bytestr = txtKey2.getText().getBytes(StandardCharsets.UTF_8).length;
-                if (bytestr == 0) {
-                    txtNotiKey2.setText(" ");
-                } else if (bytestr < lengKey) {
-                    txtNotiKey2.setText("Độ dài khóa chưa đủ");
-                } else if (bytestr > lengKey) {
-                    txtNotiKey2.setText("Độ dài khóa vượt quá");
-                } else {
-                    txtNotiKey2.setText(" ");
-                }
-                break;
-        }
-    }
-
+    
     /**
      * @param args the command line arguments
      */
@@ -843,131 +948,11 @@ public class AESForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AESForm().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AESForm().setVisible(true);
         });
     }
-
-    private byte[] getByte(AESAlgorithm aes, JComboBox<String> cbType, String noiDung){
-        switch (cbType.getSelectedIndex()) {
-            case TYPE_HEX:
-                return aes.decodeHexString(noiDung); //Chuyển chuỗi Hex thành mảng Hex[]
-            case TYPE_UTF8:
-                return noiDung.getBytes(StandardCharsets.UTF_8); //Chuyển chuỗi đầu vào sang byte[]
-        }
-        return null;
-    }
-
-    private int getVer(byte[] b) {
-        if (b.length % 16 == 0) {
-            return b.length / 16;
-        } else {
-            return b.length / 16 + 1;
-        }
-    }
-
-    private byte[][][] getByteConvert(int ver, byte[] b) {
-        byte[][][] bConvert = new byte[ver][4][4];
-        for (int v = 0; v < ver; v++) {
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    if (16 * v + 4 * i + j < b.length) {
-                        bConvert[v][j][i] = b[16 * v + 4 * i + j];
-                    } else {
-                        bConvert[v][j][i] = (byte) 0x09; //Thêm padding
-                    }
-                }
-            }
-        }
-        return bConvert;
-    }
-
-    private String getStrEncode(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] bConvert) {
-        String str = "";
-        byte[][][] b = new byte[ver][4][4];
-        switch (cbType.getSelectedIndex()) {
-            case TYPE_HEX:
-                //Mã hóa các phiên bản
-                for (int v = 0; v < ver; v++) {
-                    b[v] = aes.cipher(bConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
-
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            sb.append(String.format("%02X", b[v][j][i]));
-                        }
-                    }
-                    str += sb.toString();
-                }
-                break;
-            case TYPE_UTF8:
-                byte[] byteOutConvert = new byte[ver * 4 * 4];
-                //Mã hóa các phiên bản
-                for (int v = 0; v < ver; v++) {
-                    b[v] = aes.cipher(bConvert[v], byteKeyExpansion); //Mã hóa phiên bản v
-
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            byteOutConvert[16 * v + 4 * i + j] = b[v][j][i];
-                        }
-                    }
-                    str = new String(byteOutConvert, StandardCharsets.UTF_8);
-                }
-                break;
-        }
-        return str;
-    }
-
-    private String getStrDecode(AESAlgorithm aes, int ver, int[] byteKeyExpansion, JComboBox<String> cbType, byte[][][] bConvert) {
-        String str = "";
-        byte[][][] b = new byte[ver][4][4];
-        ArrayList<Byte> byteConvert = new ArrayList<>();
-        byte[] byteConvert2 = null;
-        switch (cbType.getSelectedIndex()) {
-            case TYPE_HEX:
-                //Giải mã các phiên bản
-                for (int v = 0; v < ver; v++) {
-                    b[v] = aes.invCipher(bConvert[v], byteKeyExpansion); //Giải mã phiên bản v
-                    
-                    //Chuyển sang mảng 1 chiều
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            byteConvert.add(b[v][j][i]);
-                        }
-                    }
-                }
-                
-                byteConvert2 = arrayListToArray(byteConvert);
-                System.out.println(byteConvert2.length);
-                StringBuilder sb = new StringBuilder();
-                for (byte b1 : byteConvert2) {
-                    sb.append(String.format("%02X", b1));
-                    //str += sb.toString();
-                }
-                str = sb.toString();
-                break;
-            case TYPE_UTF8:
-                //Giải mã các phiên bản
-                for (int v = 0; v < ver; v++) {
-                    b[v] = aes.invCipher(bConvert[v], byteKeyExpansion); //Giải mã phiên bản v
-
-                    //Chuyển sang mảng 1 chiều
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            byteConvert.add(b[v][j][i]);
-                        }
-                    }
-                }
-                
-                byteConvert2 = arrayListToArray(byteConvert);
-
-                str = new String(byteConvert2, StandardCharsets.UTF_8);
-                break;
-        }
-        return str;
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCopy1;
     private javax.swing.JButton btnCopy2;
@@ -1017,20 +1002,4 @@ public class AESForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtTime1;
     private javax.swing.JTextField txtTime2;
     // End of variables declaration//GEN-END:variables
-
-    private byte[] arrayListToArray(ArrayList<Byte> arrayList) {
-        byte[] array = null;
-        for (int i = arrayList.size() - 1; i >= 0; i--) {
-            if (arrayList.get(i) == (byte) 0x09) {
-                arrayList.remove(i);
-            } else {
-                array = new byte[i + 1];
-                break;
-            }
-        }
-        for (int i = 0; i < array.length; i++) {
-            array[i] = arrayList.get(i);
-        }
-        return array;
-    }
 }
