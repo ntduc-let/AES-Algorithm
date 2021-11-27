@@ -333,8 +333,7 @@ public class AESAlgorithm {
     //Chuyển đổi chuỗi Hex thành Hex
     public byte[] decodeHexString(String hexString) {
         if (hexString.length() % 2 == 1) {
-            System.out.println("Invalid hexadecimal String supplied.");
-            return null;
+            throw new IllegalArgumentException("Mã Hex sai định dạng!");
         }
 
         byte[] bytes = new byte[hexString.length() / 2];
@@ -353,8 +352,7 @@ public class AESAlgorithm {
     private int toDigit(char hexChar) {
         int digit = Character.digit(hexChar, 16);
         if(digit == -1) {
-            System.out.println("Invalid Hexadecimal Character: "+ hexChar);
-            return 0;
+            throw new IllegalArgumentException("Mã Hex sai định dạng!");
         }
         return digit;
     }

@@ -576,10 +576,7 @@ public class AESForm extends javax.swing.JFrame {
     private void btnDecodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecodeActionPerformed
         txtNotiCipher2.setText(" ");
         if(txtCipher2.getText().isEmpty()){
-            txtNotiCipher2.setText("Vui lòng nhập bản rõ!");
-            return;
-        }else if(cbbTypeCipher2.getSelectedIndex()==TYPE_HEX && txtCipher2.getText().length()%2==1){
-            txtNotiCipher2.setText("Định dạng bản rõ không hợp lệ!");
+            txtNotiCipher2.setText("Vui lòng nhập bản mã!");
             return;
         }else if(txtKey2.getText().isEmpty()){
             txtNotiKey2.setText("Vui lòng nhập khóa");
@@ -603,13 +600,23 @@ public class AESForm extends javax.swing.JFrame {
         size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString());
 
         AESAlgorithm aes = new AESAlgorithm(size);
-
-        byteKey = getByte(aes, cbbTypeKey2, txtKey2.getText()); //Chuyển chuỗi key thành mảng byte[]
-
+                
+        try {
+            byteKey = getByte(aes, cbbTypeKey2, txtKey2.getText()); //Chuyển chuỗi key thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiKey2.setText(e.getMessage());
+            return;
+        }
+        
         byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
 
-        byteCipher = getByte(aes, cbbTypeCipher2, txtCipher2.getText()); //Chuyển chuỗi bản mã thành mảng byte[]
-
+        try {
+            byteCipher = getByte(aes, cbbTypeCipher2, txtCipher2.getText()); //Chuyển chuỗi bản mã thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiCipher2.setText(e.getMessage());
+            return;
+        }
+        
         ver = getVer(byteCipher); //Xác định số phiên bản
 
         byteCipherConvert = getByteConvert(ver, byteCipher); //Chuyển mã thành nhiều phiên bản byte[][]
@@ -657,9 +664,6 @@ public class AESForm extends javax.swing.JFrame {
         if(txtPlain1.getText().isEmpty()){
             txtNotiPlain1.setText("Vui lòng nhập bản mã!");
             return;
-        }else if(cbbTypePlain1.getSelectedIndex()==TYPE_HEX && txtPlain1.getText().length()%2==1){
-            txtNotiPlain1.setText("Định dạng bản mã không hợp lệ!");
-            return;
         }else if(txtKey1.getText().isEmpty()){
             txtNotiKey1.setText("Vui lòng nhập khóa");
             return;
@@ -683,11 +687,22 @@ public class AESForm extends javax.swing.JFrame {
 
         AESAlgorithm aes = new AESAlgorithm(size);
 
-        byteKey = getByte(aes, cbbTypeKey1, txtKey1.getText()); //Chuyển chuỗi key thành mảng byte[]
+        try {
+            byteKey = getByte(aes, cbbTypeKey1, txtKey1.getText()); //Chuyển chuỗi key thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiKey1.setText(e.getMessage());
+            return;
+        }
+        
         byteKeyExpansion = aes.createKeyExpansion(byteKey); //Tạo khóa mở rộng
 
-        bytePlain = getByte(aes, cbbTypePlain1, txtPlain1.getText()); //Chuyển chuỗi bản rõ thành mảng byte[]
-
+        try {
+            bytePlain = getByte(aes, cbbTypePlain1, txtPlain1.getText()); //Chuyển chuỗi bản rõ thành mảng byte[]
+        } catch (Exception e) {
+            txtNotiPlain1.setText(e.getMessage());
+            return;
+        }
+        
         ver = getVer(bytePlain); //Xác định số phiên bản
 
         bytePlainConvert = getByteConvert(ver, bytePlain); //Chuyển mã thành nhiều phiên bản byte[][]
@@ -835,7 +850,7 @@ public class AESForm extends javax.swing.JFrame {
         });
     }
 
-    private byte[] getByte(AESAlgorithm aes, JComboBox<String> cbType, String noiDung) {
+    private byte[] getByte(AESAlgorithm aes, JComboBox<String> cbType, String noiDung){
         switch (cbType.getSelectedIndex()) {
             case TYPE_HEX:
                 return aes.decodeHexString(noiDung); //Chuyển chuỗi Hex thành mảng Hex[]
