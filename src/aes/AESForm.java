@@ -23,7 +23,6 @@ public class AESForm extends javax.swing.JFrame {
 
     public static final int TYPE_HEX = 0;
     public static final int TYPE_UTF8 = 1;
-    public static final int LENGTH_TIME = 17;
     public static final String URL_ICON = ".\\icon\\AES_icon.png";
     public static final String KEY_SIZE_128 = "128";
     public static final String KEY_SIZE_192 = "192";
@@ -248,10 +247,12 @@ public class AESForm extends javax.swing.JFrame {
         
         String strTimeDelay = "" + timeDelay; //00:00:00.00000000
 
-        if (strTimeDelay.length() <= LENGTH_TIME) {
-            txtTime1.setText(strTimeDelay);
+        if (strTimeDelay.length() <= 6){
+            txtTime1.setText("00.000000");
+        }else if (strTimeDelay.length() <= 16) {
+            txtTime1.setText(strTimeDelay.substring(6));
         } else {
-            txtTime1.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
+            txtTime1.setText(strTimeDelay.substring(6, 15));
         }
     }
     
@@ -341,12 +342,14 @@ public class AESForm extends javax.swing.JFrame {
                 .minusSeconds(timeBegin.getSecond())
                 .minusNanos(timeBegin.getNano());
 
-        String strTimeDelay = "" + timeDelay; //00:00:00.00000000
+        String strTimeDelay = "" + timeDelay; //00:00:00.0000000
 
-        if (strTimeDelay.length() <= LENGTH_TIME) {
-            txtTime2.setText(strTimeDelay);
+        if (strTimeDelay.length() <= 6){
+            txtTime2.setText("00.000000");
+        }else if (strTimeDelay.length() <= 16) {
+            txtTime2.setText(strTimeDelay.substring(6));
         } else {
-            txtTime2.setText(strTimeDelay.substring(0, LENGTH_TIME - 1));
+            txtTime2.setText(strTimeDelay.substring(6, 15));
         }
     }
     
@@ -640,7 +643,7 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel11.setText("Thời gian (s):");
 
-        txtTime1.setText("00:00:00.00");
+        txtTime1.setText("00.000000");
         txtTime1.setEnabled(false);
 
         txtNotiKey1.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
@@ -771,7 +774,7 @@ public class AESForm extends javax.swing.JFrame {
 
         jLabel19.setText("Thời gian (s):");
 
-        txtTime2.setText("00:00:00.00");
+        txtTime2.setText("00.000000");
         txtTime2.setEnabled(false);
 
         txtNotiKey2.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
