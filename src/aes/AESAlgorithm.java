@@ -80,6 +80,8 @@ public class AESAlgorithm {
         0x20000000, 0x40000000, 0x80000000, 
         0x1b000000, 0x36000000};
     
+    public AESAlgorithm() {}
+    
     public AESAlgorithm(int iBlockLength) {
         if(!isValidKeySize(iBlockLength)){
             System.out.println("Khóa chỉ có độ dài: 128, 192, 256");

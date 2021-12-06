@@ -170,7 +170,7 @@ public class AESForm extends javax.swing.JFrame {
         txtCipher1.setText("");
         txtPlain1.setText("");
         txtKey1.setText("");
-        txtTime1.setText("00.000000");
+        txtTime1.setText("0.000000000");
         txtNotiKey1.setText(" ");
 
         cbbTypeCipher1.setSelectedIndex(0);
@@ -250,11 +250,9 @@ public class AESForm extends javax.swing.JFrame {
         String strTimeDelay = "" + timeDelay; //00:00:00.00000000
 
         if (strTimeDelay.length() <= 6){
-            txtTime1.setText("00.000000");
-        }else if (strTimeDelay.length() <= 16) {
-            txtTime1.setText(strTimeDelay.substring(6));
+            txtTime1.setText("0.000000000");
         } else {
-            txtTime1.setText(strTimeDelay.substring(6, 15));
+            txtTime1.setText(strTimeDelay.substring(7));
         }
     }
     
@@ -263,7 +261,7 @@ public class AESForm extends javax.swing.JFrame {
         txtCipher2.setText("");
         txtPlain2.setText("");
         txtKey2.setText("");
-        txtTime2.setText("00.000000");
+        txtTime2.setText("0.000000000");
         txtNotiKey2.setText(" ");
 
         cbbTypeCipher2.setSelectedIndex(0);
@@ -347,11 +345,9 @@ public class AESForm extends javax.swing.JFrame {
         String strTimeDelay = "" + timeDelay; //00:00:00.0000000
 
         if (strTimeDelay.length() <= 6){
-            txtTime2.setText("00.000000");
-        }else if (strTimeDelay.length() <= 16) {
-            txtTime2.setText(strTimeDelay.substring(6));
+            txtTime2.setText("00.000000000");
         } else {
-            txtTime2.setText(strTimeDelay.substring(6, 15));
+            txtTime2.setText(strTimeDelay.substring(7));
         }
     }
     
@@ -388,9 +384,7 @@ public class AESForm extends javax.swing.JFrame {
             return;
         }
         
-        int size = Integer.parseInt(cbbSizeKey.getSelectedItem().toString()); //Lấy kích thước khóa
-
-        AESAlgorithm aes = new AESAlgorithm(size);
+        AESAlgorithm aes = new AESAlgorithm();
         
         String strHex1 = txtHex1.getText();
         String strHex2 = txtHex2.getText();
@@ -712,7 +706,7 @@ public class AESForm extends javax.swing.JFrame {
         jLabel11.setText("Thời gian (s):");
 
         txtTime1.setEditable(false);
-        txtTime1.setText("00.000000");
+        txtTime1.setText("0.000000000");
 
         txtNotiKey1.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
         txtNotiKey1.setForeground(new java.awt.Color(255, 51, 51));
@@ -827,7 +821,7 @@ public class AESForm extends javax.swing.JFrame {
         jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel7.setForeground(new java.awt.Color(255, 0, 0));
         jLabel7.setText("Giải mã");
 
         jLabel8.setText("Bản mã:");
@@ -853,7 +847,7 @@ public class AESForm extends javax.swing.JFrame {
         jLabel19.setText("Thời gian (s):");
 
         txtTime2.setEditable(false);
-        txtTime2.setText("00.000000");
+        txtTime2.setText("0.000000000");
 
         txtNotiKey2.setFont(new java.awt.Font("Dialog", 3, 11)); // NOI18N
         txtNotiKey2.setForeground(new java.awt.Color(255, 51, 51));
