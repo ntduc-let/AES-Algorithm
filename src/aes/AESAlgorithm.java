@@ -1,40 +1,15 @@
 package aes;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-
 public class AESAlgorithm {    
     public static final int KEY_SIZE_128 = 128;
     public static final int KEY_SIZE_192 = 192;
     public static final int KEY_SIZE_256 = 256;
     public static final int NB_VALUE = 4;
-        
+    
+    protected static int Nk, Nr, Nb = NB_VALUE;
     // AES-128 Nk=4, Nb=4, Nr=10
     // AES-192 Nk=6, Nb=4, Nr=12
     // AES-256 Nk=8, Nb=4, Nr=14
-    
-    protected static int Nk, Nr, Nb = NB_VALUE;
-    
-    //Kiểm tra giá trị kích thước khóa
-    public static boolean isValidKeySize(int keySize) {
-        switch(keySize) {
-            case KEY_SIZE_128:
-                Nk = 4;
-                Nr = 10;
-                return true;
-            case KEY_SIZE_192:
-                Nk = 6;
-                Nr = 12;
-                return true;
-            case KEY_SIZE_256:
-                Nk = 8;
-                Nr = 14;
-                return true;
-            default:
-                return false;
-        }
-    }
     
     protected static final byte[][] sbox = { 
         {(byte) 0x63, (byte) 0x7c, (byte) 0x77, (byte) 0x7b, (byte) 0xf2, (byte) 0x6b, (byte) 0x6f, (byte) 0xc5, (byte) 0x30, (byte) 0x01, (byte) 0x67, (byte) 0x2b, (byte) 0xfe, (byte) 0xd7, (byte) 0xab, (byte) 0x76},
@@ -88,22 +63,138 @@ public class AESAlgorithm {
         }
     }
     
-    // trả về bit thứ i của giá trị, 0 <= i <= 7
-    // giá trị = B7B6B5B4B3B2B1B0
-    private static byte getBit(byte value, int i) {
-        //00000001, 00000010, 00000100, 00001000, 00010000, 00100000, 01000000, 10000000
-        final byte bMasks[] = {(byte) 0x01, (byte) 0x02, (byte) 0x04, (byte) 0x08, (byte) 0x10, (byte) 0x20, (byte) 0x40, (byte) 0x80};
-        byte bBit = (byte) (value & bMasks[i]);
-        return (byte) ((byte) (bBit >> i) & (byte) 0x01);
+    //Kiểm tra giá trị kích thước khóa
+    public static boolean isValidKeySize(int keySize) {
+        switch(keySize) {
+            case KEY_SIZE_128 -> {
+                Nk = 4;
+                Nr = 10;
+                return true;
+            }
+            case KEY_SIZE_192 -> {
+                Nk = 6;
+                Nr = 12;
+                return true;
+            }
+            case KEY_SIZE_256 -> {
+                Nk = 8;
+                Nr = 14;
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
     }
     
-    //Chưa rõ
-    //Nhân đa thức nhị phân
-    private static byte xtime(byte value) {
-        int iResult = (int) (value & 0x000000ff) * 02;
-        return (byte) (((iResult & 0x100) != 0) ? iResult ^ 0x11b : iResult);
+    //Mã hóa
+    byte[][] cipher(byte bytesMessage[][], int wordsKeyExpansion[]) {
+        byte state[][] = new byte[4][Nb];
+        state = bytesMessage;
+
+        //Vòng 0
+        state = addRoundKey(state, wordsKeyExpansion, 0);
+        
+        //Vòng 1 -> Nr-1
+        for (int round = 1; round <= Nr - 1; round++) {
+            state = subBytes(state);
+            state = shiftRows(state);
+            state = mixColumns(state);
+            state = addRoundKey(state, wordsKeyExpansion, round * Nb);
+        }
+        
+        //Vòng Nr
+        state = subBytes(state);
+        state = shiftRows(state);
+        state = addRoundKey(state, wordsKeyExpansion, Nr * Nb);
+        
+        return state;
+    }
+    
+    //Lấy cột của state XOR với khóa w tương ứng
+    private byte[][] addRoundKey(byte state[][], int w[], int l) {
+        byte stateNew[][] = new byte[state.length][state[0].length];
+        for (int c = 0; c < Nb; c++) {
+            stateNew[0][c] = (byte) (state[0][c] ^ getByte(w[l + c], 3));
+            stateNew[1][c] = (byte) (state[1][c] ^ getByte(w[l + c], 2));
+            stateNew[2][c] = (byte) (state[2][c] ^ getByte(w[l + c], 1));
+            stateNew[3][c] = (byte) (state[3][c] ^ getByte(w[l + c], 0));
+        }
+        return stateNew;
+    }
+    
+    //return byte thứ iByte của value
+    //value (gồm 4 byte) = byte3 byte2 byte1 byte0 
+    //iByte = 2 --> return byte2
+    private byte getByte(int value, int iByte) {
+        return (byte) ((value >>> (iByte * 8)) & 0x000000ff);
+    }
+    
+    //Thay tất cả các giá trị state bằng giá trị trong bảng sbos tương ứng
+    //state = 0x1b --> state = sbox[1][b]
+    private static byte[][] subBytes(byte state[][]) {
+        for (int i = 0; i < state.length; i++)
+            for (int j = 0; j < state[i].length; j++)
+                state[i][j] = sboxTransform(state[i][j]);
+        return state;
+    }
+    
+    //return sbox tương ứng với giá trị value
+    //state = 0x1b --> state = sbox[1][b]
+    private static byte sboxTransform(byte value) {
+        byte bUpper = 0, bLower = 0;
+        bUpper = (byte) ((byte) (value >> 4) & 0x0f);
+        bLower = (byte) (value & 0x0f);
+        return sbox[bUpper][bLower];
+    }
+    
+    //Dịch vòng trái mảng state theo từng hàng
+    private byte[][] shiftRows(byte state[][]) {
+        byte stateNew[][] = new byte[state.length][state[0].length];
+        
+        //Hàng 0 thì không shift
+        stateNew[0] = state[0];
+        
+        //Hàng 1 shift vòng trái 1
+        //Hàng 2 shift vòng trái 2
+        //Hàng 3 shift vòng trái 3
+        for (int r = 1; r < state.length; r++)
+            for (int c = 0; c < state[r].length; c++)
+                stateNew[r][c] = state[r][(c + r) % Nb];
+        
+        return stateNew;
     }
 
+    //Thực hiện phép nhân hữu hạn
+    private byte[][] mixColumns(byte state[][]) {
+        byte stateNew[][] = new byte[state.length][state[0].length];
+        
+        //Lấy từng cột của state nhân hữu hạn với ma trận 
+        //02 03 01 01
+        //01 02 03 01
+        //01 01 02 03
+        //03 01 01 02
+        for (int c = 0; c < Nb; c++) {
+            stateNew[0][c] = xor4Bytes(finiteMultiplication(state[0][c], 0x02), finiteMultiplication(state[1][c], 0x03), state[2][c], state[3][c]);
+            stateNew[1][c] = xor4Bytes(state[0][c], finiteMultiplication(state[1][c], 0x02), finiteMultiplication(state[2][c], 0x03), state[3][c]);
+            stateNew[2][c] = xor4Bytes(state[0][c], state[1][c], finiteMultiplication(state[2][c], 0x02), finiteMultiplication(state[3][c], 0x03));
+            stateNew[3][c] = xor4Bytes(finiteMultiplication(state[0][c], 0x03), state[1][c], state[2][c], finiteMultiplication(state[3][c], 0x02));
+        }
+        return stateNew;
+    }
+    
+    //Thực hiện xor 4 byte
+    // return (0 XOR b1 XOR b2 XOR b3 XOR b4_
+    private byte xor4Bytes(byte b1, byte b2, byte b3, byte b4) {
+        byte bResult = 0;
+        bResult ^= b1;
+        bResult ^= b2;
+        bResult ^= b3;
+        bResult ^= b4;
+        return bResult;
+    }
+
+    //Phép nhân hữu hạn
     private static byte finiteMultiplication(int v1, int v2) {
         return finiteMultiplication((byte) v1, (byte) v2);
     }
@@ -124,98 +215,36 @@ public class AESAlgorithm {
         return bResult;
     }
     
-    //Mã hóa
-    //bytesMessage: thông báo được mã hóa
-    //wordsKeyExpansion: mảng mở rộng khóa
-    byte[][] cipher(byte bytesMessage[][], int wordsKeyExpansion[]) {
-        byte state[][] = new byte[4][Nb];
-        state = bytesMessage;
-
-        //Vòng 0
-        state = addRoundKey(state, wordsKeyExpansion, 0);
-        
-        //vòng 1 -> Nr-1
-        for (int round = 1; round <= Nr - 1; round++) {
-            state = subBytes(state);
-            state = shiftRows(state);
-            state = mixColumns(state);
-            state = addRoundKey(state, wordsKeyExpansion, round * Nb);
-        }
-        state = subBytes(state);
-        state = shiftRows(state);
-        state = addRoundKey(state, wordsKeyExpansion, Nr * Nb);
-        return state;
+    //Nếu bit thứ 7 của value = 0 thì return (value << 1)
+    //Nếu bit thứ 7 của value = 1 thì return ((value << 1) XOR 1B)
+    private static byte xtime(byte value) {
+        int iResult = (int) (value & 0x000000ff) * 02; //Dịch trái 1 lần 8 bit đầu của value
+        return (byte) (((iResult & 0x100) != 0) ? iResult ^ 0x11b : iResult);
+                                 //1 0000 0000              1 0001 1011
     }
     
-    private byte[][] addRoundKey(byte state[][], int w[], int l) {
-        byte stateNew[][] = new byte[state.length][state[0].length];
-        for (int c = 0; c < Nb; c++) {
-            stateNew[0][c] = (byte) (state[0][c] ^ getByte(w[l + c], 3));
-            stateNew[1][c] = (byte) (state[1][c] ^ getByte(w[l + c], 2));
-            stateNew[2][c] = (byte) (state[2][c] ^ getByte(w[l + c], 1));
-            stateNew[3][c] = (byte) (state[3][c] ^ getByte(w[l + c], 0));
-        }
-        return stateNew;
+    //return bit thứ i của value, 0 <= i <= 7
+    //value = 1010 0101, i = 3 --> return 0
+    private static byte getBit(byte value, int i) {
+        final byte bMasks[] = {(byte) 0x01, (byte) 0x02, (byte) 0x04, (byte) 0x08, (byte) 0x10, (byte) 0x20, (byte) 0x40, (byte) 0x80};
+                              //00000001  , 00000010   , 00000100   , 00001000   , 00010000   , 00100000   , 01000000   , 10000000
+        byte bBit = (byte) (value & bMasks[i]);
+        return (byte) ((byte) (bBit >> i) & (byte) 0x01);
     }
     
-    //iByte là số byte của value
-    // value = |byte3|byte2|byte1|byte0|
-    private byte getByte(int value, int iByte) {
-        return (byte) ((value >>> (iByte * 8)) & 0x000000ff);
+    //Tạo khóa mở rộng
+    public int[] createKeyExpansion(byte key[]) {
+        int w[] = new int[Nb * (Nr + 1)];
+        keyExpansion(key, w);
+        return w;
     }
     
-    private static byte[][] subBytes(byte state[][]) {
-        for (int i = 0; i < state.length; i++)
-            for (int j = 0; j < state[i].length; j++)
-                state[i][j] = sboxTransform(state[i][j]);
-        return state;
-    }
-    
-    private static byte sboxTransform(byte value) {
-        byte bUpper = 0, bLower = 0;
-        bUpper = (byte) ((byte) (value >> 4) & 0x0f);
-        bLower = (byte) (value & 0x0f);
-        return sbox[bUpper][bLower];
-    }
-    
-    private byte[][] shiftRows(byte state[][]) {
-        byte stateNew[][] = new byte[state.length][state[0].length];
-        //Hàng 0 thì không shift
-        stateNew[0] = state[0];
-        //Hàng 1 shift vòng trái 1
-        //Hàng 2 shift vòng trái 2
-        //Hàng 3 shift vòng trái 3
-        for (int r = 1; r < state.length; r++)
-            for (int c = 0; c < state[r].length; c++)
-                stateNew[r][c] = state[r][(c + r) % Nb];
-        return stateNew;
-    }
-
-    private byte[][] mixColumns(byte state[][]) {
-        byte stateNew[][] = new byte[state.length][state[0].length];
-        for (int c = 0; c < Nb; c++) {
-            stateNew[0][c] = xor4Bytes(finiteMultiplication(state[0][c], 0x02), finiteMultiplication(state[1][c], 0x03), state[2][c], state[3][c]);
-            stateNew[1][c] = xor4Bytes(state[0][c], finiteMultiplication(state[1][c], 0x02), finiteMultiplication(state[2][c], 0x03), state[3][c]);
-            stateNew[2][c] = xor4Bytes(state[0][c], state[1][c], finiteMultiplication(state[2][c], 0x02), finiteMultiplication(state[3][c], 0x03));
-            stateNew[3][c] = xor4Bytes(finiteMultiplication(state[0][c], 0x03), state[1][c], state[2][c], finiteMultiplication(state[3][c], 0x02));
-        }
-        return stateNew;
-    }
-    
-    //Chưa rõ
-    private byte xor4Bytes(byte b1, byte b2, byte b3, byte b4) {
-        byte bResult = 0;
-        bResult ^= b1;
-        bResult ^= b2;
-        bResult ^= b3;
-        bResult ^= b4;
-        return bResult;
-    }
-
+    //Mở rộng key
     public void keyExpansion(byte key[], int w[]) {
         int iTemp = 0;
         int i = 0;
 
+        //Chuyển 4 key (1 byte) liên tiếp thành 1 word (4 byte)
         while (i < Nk) {
             w[i] = toWord(key[4 * i], key[4 * i + 1], key[4 * i + 2], key[4 * i + 3]);
             i++;
@@ -223,6 +252,17 @@ public class AESAlgorithm {
 
         i = Nk;
         
+        //Mở rộng thêm word từ w[Nk] đến w[Nb * (Nr + 1) - 1]
+        //Với i % Nk
+            //Thực hiện rotWord w trước đó (w[i-1])
+            //Sau đó thực hiện subWord
+            //Sau đó thực hiện XOR Rcon[i/Nk]
+            //Sau đó thực hiện XOR w[i-Nk]
+        //Với Nk > 6 && i % Nk == 4
+            //Thực hiện rotWord w trước đó (w[i-1])
+            //Sau đó thực hiện XOR w[i-Nk]
+        //Với trường hợp i còn lại
+            //Thực hiện XOR w trước đó (w[i-1]) với w[i-Nk]
         while (i < Nb * (Nr + 1)) {
             iTemp = w[i - 1];
             if (i % Nk == 0) {
@@ -235,7 +275,8 @@ public class AESAlgorithm {
         }
     }
     
-    //word = |b1|b2|b3|b4|
+    //Chuyển 4 key (1 byte) thành 1 word (4 byte)
+    //word = b1 b2 b3 b4
     private static int toWord(byte b1, byte b2, byte b3, byte b4) {
         int word = 0;
         word ^= ((int) b1) << 24;
@@ -245,12 +286,14 @@ public class AESAlgorithm {
         return word;
     }
     
-    //Trộn cột
-    //word = |b2|b3|b4|b1|
+    //Dịch vòng trái word 1 lần theo byte
+    //word = b1 b2 b3 b4 --> word = b2 b3 b4 b1
     private static int rotWord(int word) {
         return (word << 8) ^ ((word >> 24) & 0x000000ff);
     }
     
+    //Thay giá trị word bằng giá trị trong bản sbos tương ứng
+    //word = 0000 1111 2222 3333 --> word = sbos[00] sbos[00] sbos[11] sbos[11] sbos[22] sbos[22] sbos[33] sbos[33]
     private static int subWord(int word) {
         int newWord = 0;
         newWord ^= (int) sboxTransform((byte) (word >>> 24)) & 0x000000ff;
@@ -263,32 +306,23 @@ public class AESAlgorithm {
         return newWord;
     }
     
-    public int[] createKeyExpansion(byte key[]) {
-        int w[] = new int[Nb * (Nr + 1)];
-        keyExpansion(key, w);
-        return w;
-    }
-    
-    //Tạo khóa random
-    public byte[] createKey() {
-        byte key[] = new byte[4 * Nk];
-        java.util.Random rndGen = new java.util.Random();
-        rndGen.nextBytes(key);
-        return key;
-    }
-    
+    //Giải mã
     byte[][] invCipher(byte bytesMessage[][], int wordsKeyExpansion[]) {
         byte state[][] = new byte[4][Nb];
         state = bytesMessage;
 
+        //Vòng Nr
         state = addRoundKey(state, wordsKeyExpansion, Nr * Nb);
 
+        //Vòng Nr-1 --> 1
         for (int round = (Nr - 1); round >= 1; round--) {
             state = invShiftRows(state);
             state = invSubBytes(state);
             state = addRoundKey(state, wordsKeyExpansion, round * Nb);
             state = invMixColumns(state);
         }
+        
+        //Vòng 0
         state = invShiftRows(state);
         state = invSubBytes(state);
         state = addRoundKey(state, wordsKeyExpansion, 0);
@@ -296,10 +330,16 @@ public class AESAlgorithm {
         return state;
     }
     
+    //Dịch vòng phỉa mảng state theo từng hàng
     private byte[][] invShiftRows(byte state[][]) {
         byte stateNew[][] = new byte[state.length][state[0].length];
 
+        //Hàng 0 thì không shift
         stateNew[0] = state[0];
+        
+        //Hàng 1 shift vòng phải 1
+        //Hàng 2 shift vòng phải 2
+        //Hàng 3 shift vòng phải 3
         for (int r = 1; r < state.length; r++)
             for (int c = 0; c < state[r].length; c++)
                 stateNew[r][(c + r) % Nb] = state[r][c];
@@ -307,6 +347,8 @@ public class AESAlgorithm {
         return stateNew;
     }
 
+    //Thay tất cả các giá trị state bằng giá trị trong bảng invSbox tương ứng
+    //state = 0x1b --> state = invSbox[1][b]
     private static byte[][] invSubBytes(byte state[][]) {
         for (int i = 0; i < state.length; i++)
             for (int j = 0; j < state[i].length; j++)
@@ -314,6 +356,8 @@ public class AESAlgorithm {
         return state;
     }
 
+    //return invSbox tương ứng với giá trị value
+    //state = 0x1b --> state = invSbox[1][b]
     private static byte invSboxTransform(byte value) {
         byte bUpper = 0, bLower = 0;
         bUpper = (byte) ((byte) (value >> 4) & 0x0f);
@@ -321,6 +365,7 @@ public class AESAlgorithm {
         return sboxInv[bUpper][bLower];
     }
 
+    //Thực hiện phép nhân hữu hạn
     private byte[][] invMixColumns(byte state[][]) {
         byte stateNew[][] = new byte[state.length][state[0].length];
         for (int c = 0; c < Nb; c++) {
@@ -332,8 +377,9 @@ public class AESAlgorithm {
         return stateNew;
     }
     
-    //Chuyển đổi chuỗi Hex thành Hex
+    //Chuyển đổi chuỗi Hex (length chẵn) thành Hex
     public byte[] decodeHexString(String hexString) {
+        //Trường hợp chuỗi độ dài lẻ
         if (hexString.length() % 2 == 1) {
             throw new IllegalArgumentException("Mã Hex sai định dạng!");
         }
@@ -345,12 +391,14 @@ public class AESAlgorithm {
         return bytes;
     }
     
+    //Chuyển đổi chuỗi Hex (length = 2) thành hex
     public byte hexToByte(String hexString) {
         int firstDigit = toDigit(hexString.charAt(0));
         int secondDigit = toDigit(hexString.charAt(1));
         return (byte) ((firstDigit << 4) + secondDigit);
     }
     
+    //Chuyển đổi ký tự hex thành hex
     private int toDigit(char hexChar) {
         int digit = Character.digit(hexChar, 16);
         if(digit == -1) {
