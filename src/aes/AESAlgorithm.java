@@ -1,5 +1,9 @@
 package aes;
 
+/**
+ *
+ * @author ntduc-let
+ */
 public class AESAlgorithm {    
     public static final int KEY_SIZE_128 = 128;
     public static final int KEY_SIZE_192 = 192;
